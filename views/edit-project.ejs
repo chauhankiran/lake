@@ -1,1 +1,36 @@
-<h1>Edit project</h1>
+<%- include("shared/header") %>
+
+<div class="container my-4">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="mb-3">Edit project</h1>
+      <div class="row">
+        <div class="col-md-6">
+          <form action="" method="post">
+            <div class="mb-3">
+              <label for="name">Name</label>
+              <input type="text" name="name" id="name" class="form-control" placeholder="Example" value="Exmaple">
+            </div>
+
+            <div class="mb-3">
+              <label for="key">Key</label>
+              <input type="text" name="key" id="key" class="form-control" placeholder="EX" value="EX">
+            </div>
+
+            <div class="mb-3">
+              <label for="description">Description</label>
+              <textarea name="description" id="description" cols="30" rows="10" class="form-control">Optional description of the Example project. Contact @haris for more info on this project.</textarea>
+            </div>
+
+            <div class="mb-3">
+              <button type="submit" class="btn btn-primary">Update project</button>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-6"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include("shared/footer") %>

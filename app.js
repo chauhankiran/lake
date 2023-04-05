@@ -5,6 +5,7 @@ const app = express();
 app.set("view engine", "ejs");
 
 app.use(morgan("tiny"));
+app.use(express.static("./public"));
 
 // home.
 app.get("/", async (req, res, next) => {

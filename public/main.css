@@ -1,0 +1,13 @@
+body {
+  font-family: Georgia, serif;
+  font-size: 20px;
+  line-height: 30px;
+}
+a {
+  text-decoration: none;
+  color: darkred;
+}
+h1 {
+  font-weight: 700;
+  font-size: 48px;
+}
