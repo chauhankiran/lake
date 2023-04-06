@@ -3,12 +3,12 @@
 <div class="container my-4">
   <div class="row">
     <div class="col-md-12">
-      <h1 class="mb-3">EX. Example</h1>
-      <p class="fst-italic">Optional description of the Example project. Contact @haris for more info on this project.</p>
+      <h1 class="mb-3"><%= project.key %>. <%= project.name %></h1>
+      <p class="fst-italic"><%= project.description %></p>
       <hr>
       <div class="row">
         <div class="col-md-6 text-start">
-          <a href="/projects/1/edit">Edit</a>
+          <a href="/projects/<%= project.id %>/edit">Edit</a>
         </div>
         <div class="col-md-6 text-end">
           <a href="javascript:void(0)">Delete</a>

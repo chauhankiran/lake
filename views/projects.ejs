@@ -5,7 +5,7 @@
     <div class="col-md-12">
       
         <div class="row mb-3">
-          <div class="col-md-6"><h1>Projects (4)</h1></div>
+          <div class="col-md-6"><h1>Projects (<%= count %>)</h1></div>
           <div class="col-md-6 d-flex align-items-center justify-content-end">
             <a href="/projects/new" class="btn btn-primary">New project</a>
           </div>
@@ -21,28 +21,15 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>
-              <a href="/projects/1">EX</a>
-            </td>
-            <td>Example</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td><a href="/projects/1">PTR</a></td>
-            <td>Paint Red</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td><a href="/projects/1">BT</a></td>
-            <td>Bit Tracker</td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td><a href="/projects/1">CH</a></td>
-            <td>Chair House</td>
-          </tr>
+          <% projects.forEach(function(project) { %>
+            <tr>
+              <td><%= project.id %></td>
+              <td>
+                <a href="/projects/<%= project.id %>"><%= project.key %></a>
+              </td>
+              <td><%= project.name %></td>
+            </tr>
+          <% }) %>
         </tbody>
       </table>
     </div>
