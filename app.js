@@ -108,6 +108,17 @@ app.delete("/projects/:id", async (req, res, next) => {
   }
 });
 
+// 404.
+app.all("*", (req, res, next) => {
+  res.status(404).send("4-0-4");
+});
+
+// error handler.
+app.use((err, req, res, next) => {
+  console.log(err);
+  res.status(500).send("Internal server error");
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, async () => {
   try {
