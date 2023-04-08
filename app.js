@@ -1,7 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const methodOverride = require("method-override");
-const { sequelize, Project } = require("./models");
+const { sequelize, Project, Issue } = require("./models");
 const app = express();
 
 app.set("view engine", "ejs");
@@ -99,10 +99,99 @@ app.delete("/projects/:id", async (req, res, next) => {
 
   try {
     const project = await Project.findOne({ where: { id } });
-
     await project.destroy();
 
     res.redirect(`/projects`);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// issues.
+app.get("/issues", async (req, res, next) => {
+  try {
+    const issues = await Issue.findAndCountAll();
+    res.render("issues", { issues: issues.rows, count: issues.count });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// new issue.
+app.get("/issues/new", async (req, res, next) => {
+  res.render("new-issue");
+});
+
+// show issue.
+app.get("/issues/:id", async (req, res, next) => {
+  const id = req.params.id;
+
+  try {
+    const issue = await Issue.findOne({ where: { id } });
+    res.render("show-issue", { issue });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// edit issue.
+app.get("/issues/:id/edit", async (req, res, next) => {
+  const id = req.params.id;
+
+  try {
+    const issue = await Issue.findOne({ where: { id } });
+    res.render("edit-issue", { issue });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// create issue.
+app.post("/issues", async (req, res, next) => {
+  const { projectId, title, description } = req.body;
+
+  try {
+    const issue = await Issue.create({
+      projectId,
+      title,
+      description,
+    });
+
+    res.redirect(`/issues/${issue.id}`);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// update issue.
+app.put("/issues/:id", async (req, res, next) => {
+  const id = req.params.id;
+  const { projectId, title, description } = req.body;
+
+  try {
+    const issue = await Issue.findOne({ where: { id } });
+
+    issue.projectId = projectId;
+    issue.title = title;
+    issue.description = description;
+
+    await issue.save();
+
+    res.redirect(`/issues/${issue.id}`);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// delete issue.
+app.delete("/issues/:id", async (req, res, next) => {
+  const id = req.params.id;
+
+  try {
+    const issue = await Issue.findOne({ where: { id } });
+    await issue.destroy();
+
+    res.redirect(`/issues`);
   } catch (err) {
     next(err);
   }

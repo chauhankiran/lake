@@ -1,0 +1,26 @@
+<%- include("shared/header") %>
+
+<div class="container my-4">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="mb-3"><%= issue.id %>. <%= issue.title %></h1>
+      <p class="fst-italic"><%= issue.description %></p>
+      
+      <hr>
+      
+      <div class="row">
+        <div class="col-md-6 text-start">
+          <a href="/issues/<%= issue.id %>/edit">Edit</a>
+        </div>
+        <div class="col-md-6 text-end">
+          <form action="/issues/<%= issue.id %>?_method=DELETE" method="post">
+            <button type="submit" class="btn btn-link">Delete</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<%- include("shared/footer") %>
