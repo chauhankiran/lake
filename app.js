@@ -93,6 +93,21 @@ app.put("/projects/:id", async (req, res, next) => {
   }
 });
 
+// delete project.
+app.delete("/projects/:id", async (req, res, next) => {
+  const id = req.params.id;
+
+  try {
+    const project = await Project.findOne({ where: { id } });
+
+    await project.destroy();
+
+    res.redirect(`/projects`);
+  } catch (err) {
+    next(err);
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, async () => {
   try {
