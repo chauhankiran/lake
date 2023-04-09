@@ -104,6 +104,34 @@ app.post("/login", async (req, res, next) => {
   })(req, res, next);
 });
 
+// register.
+app.get("/register", async (req, res, next) => {
+  res.render("register");
+});
+
+// register.
+app.post("/register", async (req, res, next) => {
+  const { firstName, lastName, email, password } = req.body;
+
+  const passwordHash = crypto
+    .createHash("sha256")
+    .update(password)
+    .digest("hex");
+
+  try {
+    await User.create({
+      firstName,
+      lastName,
+      email,
+      password: passwordHash,
+    });
+
+    res.redirect("/login");
+  } catch (err) {
+    next(err);
+  }
+});
+
 // home.
 app.get("/", async (req, res, next) => {
   res.render("home");

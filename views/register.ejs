@@ -1,0 +1,52 @@
+<%- include("shared/header") %>
+
+<div class="container my-4">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="mb-3">Register</h1>
+      <div class="row">
+        <div class="col-md-6">
+          <form action="/register" method="post">
+            <!-- First name -->
+            <div class="mb-3">
+              <label for="firstName">First name</label>
+              <input type="text" name="firstName" id="firstName" class="form-control" placeholder="Kai">
+            </div>
+
+            <!-- Last name -->
+            <div class="mb-3">
+              <label for="lastName">Last name</label>
+              <input type="text" name="lastName" id="lastName" class="form-control" placeholder="Doe">
+            </div>
+            
+            <!-- Email -->
+            <div class="mb-3">
+              <label for="email">Email</label>
+              <input type="text" name="email" id="email" class="form-control" placeholder="kai@doe.com">
+            </div>
+            
+            <!-- Password -->
+            <div class="mb-3">
+              <label for="password">Password</label>
+              <input type="password" name="password" id="password" class="form-control" placeholder="Super secret">
+            </div>
+
+            <!-- Confirm password -->
+            <div class="mb-3">
+              <label for="confirmPassword">Confirm password</label>
+              <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" placeholder="Repeat super secret">
+            </div>
+
+            <!-- Register button -->
+            <div class="mb-3">
+              <button type="submit" class="btn btn-primary">Register</button>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-6"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include("shared/footer") %>
