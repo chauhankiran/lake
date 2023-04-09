@@ -131,7 +131,15 @@ app.get("/projects/:id", async (req, res, next) => {
 
   try {
     const project = await Project.findOne({ where: { id } });
-    res.render("show-project", { project });
+    if (project) {
+      res.render("show-project", { project, error: "" });
+    } else {
+      res.render("show-project", {
+        project: {},
+        error:
+          "Either project doesn't exist or you don't have rights to access",
+      });
+    }
   } catch (err) {
     next(err);
   }
@@ -221,7 +229,14 @@ app.get("/issues/:id", async (req, res, next) => {
 
   try {
     const issue = await Issue.findOne({ where: { id } });
-    res.render("show-issue", { issue });
+    if (issue) {
+      res.render("show-issue", { issue, error: "" });
+    } else {
+      res.render("show-issue", {
+        issue: {},
+        error: "Either issue doesn't exist or you don't have rights to access",
+      });
+    }
   } catch (err) {
     next(err);
   }

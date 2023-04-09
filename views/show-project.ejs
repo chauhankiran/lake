@@ -2,21 +2,27 @@
 
 <div class="container my-4">
   <div class="row">
-    <div class="col-md-12">
-      <h1 class="mb-3"><%= project.key %>. <%= project.name %></h1>
-      <p class="fst-italic"><%= project.description %></p>
-      <hr>
-      <div class="row">
-        <div class="col-md-6 text-start">
-          <a href="/projects/<%= project.id %>/edit">Edit</a>
-        </div>
-        <div class="col-md-6 text-end">
-          <form action="/projects/<%= project.id %>?_method=DELETE" method="post">
-            <button type="submit" class="btn btn-link">Delete</button>
-          </form>
+    <% if (error) { %>
+      <div class="col-md-12">
+        <h2><%= error %></h2>
+      </div>
+    <% } else { %>
+      <div class="col-md-12">
+        <h1 class="mb-3"><%= project.key %>. <%= project.name %></h1>
+        <p class="fst-italic"><%= project.description %></p>
+        <hr>
+        <div class="row">
+          <div class="col-md-6 text-start">
+            <a href="/projects/<%= project.id %>/edit">Edit</a>
+          </div>
+          <div class="col-md-6 text-end">
+            <form action="/projects/<%= project.id %>?_method=DELETE" method="post">
+              <button type="submit" class="btn btn-link">Delete</button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+    <% } %>
   </div>
 </div>
 
