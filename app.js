@@ -1,7 +1,14 @@
+require("dotenv").config();
+const crypto = require("crypto");
 const express = require("express");
 const morgan = require("morgan");
+const cookie = require("cookie-parser");
+const session = require("express-session");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
 const methodOverride = require("method-override");
-const { sequelize, Project, Issue } = require("./models");
+const SequelizeStore = require("connect-session-sequelize")(session.Store);
+const { sequelize, Project, Issue, User } = require("./models");
 const app = express();
 
 app.set("view engine", "ejs");
@@ -10,6 +17,92 @@ app.use(morgan("tiny"));
 app.use(methodOverride("_method"));
 app.use(express.static("./public"));
 app.use(express.urlencoded({ extended: true }));
+
+const store = new SequelizeStore({ db: sequelize });
+
+app.use(cookie(process.env.COOKIE));
+app.use(
+  session({
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    },
+    saveUninitialized: true,
+    resave: true,
+    secret: process.env.SESSION,
+    store,
+  })
+);
+
+// store.sync();
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+// passport config.
+passport.use(
+  new LocalStrategy(
+    { usernameField: "email" },
+    async (email, password, done) => {
+      const passwordHash = crypto
+        .createHash("sha256")
+        .update(password)
+        .digest("hex");
+
+      try {
+        const user = await User.findOne({
+          where: { email, password: passwordHash },
+        });
+        if (user) {
+          done(null, user);
+        } else {
+          done(null, false);
+        }
+      } catch (err) {
+        done(null, false);
+      }
+    }
+  )
+);
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findOne({ where: { id } });
+    done(null, user);
+  } catch (err) {
+    done(err);
+    return;
+  }
+});
+
+// login.
+app.get("/login", async (req, res, next) => {
+  res.render("login");
+});
+
+// login.
+app.post("/login", async (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      return;
+    }
+
+    if (!user) {
+      return;
+    }
+
+    req.logIn(user, async (err) => {
+      if (err) {
+        return;
+      }
+      res.redirect("/dashboard");
+      return;
+    });
+  })(req, res, next);
+});
 
 // home.
 app.get("/", async (req, res, next) => {
