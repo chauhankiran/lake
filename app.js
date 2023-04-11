@@ -18,6 +18,16 @@ app.use(methodOverride("_method"));
 app.use(express.static("./public"));
 app.use(express.urlencoded({ extended: true }));
 
+// Auth middleware
+const auth = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    next();
+  } else {
+    res.status(403).send("Forbidden");
+    return;
+  }
+};
+
 const store = new SequelizeStore({ db: sequelize });
 
 app.use(cookie(process.env.COOKIE));
@@ -76,6 +86,16 @@ passport.deserializeUser(async (id, done) => {
     done(err);
     return;
   }
+});
+
+app.use((req, res, next) => {
+  if (req.user) {
+    res.locals.userId = req.user.id;
+    console.log(res.locals.userId);
+  } else {
+    res.locals.userId = null;
+  }
+  next();
 });
 
 // login.
@@ -138,23 +158,23 @@ app.get("/", async (req, res, next) => {
 });
 
 // dashboard.
-app.get("/dashboard", async (req, res, next) => {
+app.get("/dashboard", auth, async (req, res, next) => {
   res.render("dashboard");
 });
 
 // projects.
-app.get("/projects", async (req, res, next) => {
+app.get("/projects", auth, async (req, res, next) => {
   const projects = await Project.findAndCountAll();
   res.render("projects", { projects: projects.rows, count: projects.count });
 });
 
 // new project.
-app.get("/projects/new", async (req, res, next) => {
+app.get("/projects/new", auth, async (req, res, next) => {
   res.render("new-project");
 });
 
 // show project.
-app.get("/projects/:id", async (req, res, next) => {
+app.get("/projects/:id", auth, async (req, res, next) => {
   const id = req.params.id;
 
   try {
@@ -174,7 +194,7 @@ app.get("/projects/:id", async (req, res, next) => {
 });
 
 // edit project.
-app.get("/projects/:id/edit", async (req, res, next) => {
+app.get("/projects/:id/edit", auth, async (req, res, next) => {
   const id = req.params.id;
 
   try {
@@ -186,7 +206,7 @@ app.get("/projects/:id/edit", async (req, res, next) => {
 });
 
 // create project.
-app.post("/projects", async (req, res, next) => {
+app.post("/projects", auth, async (req, res, next) => {
   const { name, key, description } = req.body;
 
   try {
@@ -203,7 +223,7 @@ app.post("/projects", async (req, res, next) => {
 });
 
 // update project.
-app.put("/projects/:id", async (req, res, next) => {
+app.put("/projects/:id", auth, async (req, res, next) => {
   const id = req.params.id;
   const { name, key, description } = req.body;
 
@@ -223,7 +243,7 @@ app.put("/projects/:id", async (req, res, next) => {
 });
 
 // delete project.
-app.delete("/projects/:id", async (req, res, next) => {
+app.delete("/projects/:id", auth, async (req, res, next) => {
   const id = req.params.id;
 
   try {
@@ -237,7 +257,7 @@ app.delete("/projects/:id", async (req, res, next) => {
 });
 
 // issues.
-app.get("/issues", async (req, res, next) => {
+app.get("/issues", auth, async (req, res, next) => {
   try {
     const issues = await Issue.findAndCountAll();
     res.render("issues", { issues: issues.rows, count: issues.count });
@@ -247,12 +267,12 @@ app.get("/issues", async (req, res, next) => {
 });
 
 // new issue.
-app.get("/issues/new", async (req, res, next) => {
+app.get("/issues/new", auth, async (req, res, next) => {
   res.render("new-issue");
 });
 
 // show issue.
-app.get("/issues/:id", async (req, res, next) => {
+app.get("/issues/:id", auth, async (req, res, next) => {
   const id = req.params.id;
 
   try {
@@ -271,7 +291,7 @@ app.get("/issues/:id", async (req, res, next) => {
 });
 
 // edit issue.
-app.get("/issues/:id/edit", async (req, res, next) => {
+app.get("/issues/:id/edit", auth, async (req, res, next) => {
   const id = req.params.id;
 
   try {
@@ -283,7 +303,7 @@ app.get("/issues/:id/edit", async (req, res, next) => {
 });
 
 // create issue.
-app.post("/issues", async (req, res, next) => {
+app.post("/issues", auth, async (req, res, next) => {
   const { projectId, title, description } = req.body;
 
   try {
@@ -300,7 +320,7 @@ app.post("/issues", async (req, res, next) => {
 });
 
 // update issue.
-app.put("/issues/:id", async (req, res, next) => {
+app.put("/issues/:id", auth, async (req, res, next) => {
   const id = req.params.id;
   const { projectId, title, description } = req.body;
 
@@ -320,7 +340,7 @@ app.put("/issues/:id", async (req, res, next) => {
 });
 
 // delete issue.
-app.delete("/issues/:id", async (req, res, next) => {
+app.delete("/issues/:id", auth, async (req, res, next) => {
   const id = req.params.id;
 
   try {
@@ -331,6 +351,15 @@ app.delete("/issues/:id", async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+});
+
+// logout.
+app.get("/logout", auth, async (req, res, next) => {
+  req.logOut((err) => {
+    next(err);
+    return;
+  });
+  res.redirect("/");
 });
 
 // 404.
