@@ -17,6 +17,7 @@
             <th>Key</th>
             <th>Name</th>
             <th>Created by</th>
+            <th>Created at</th>
           </tr>
         </thead>
         <tbody>
@@ -28,6 +29,7 @@
               </td>
               <td><%= project.name %></td>
               <td><%= project.user?.firstName %> <%= project.user?.lastName %></td>
+              <td><%= project.createdAt %></td>
             </tr>
           <% }) %>
         </tbody>
