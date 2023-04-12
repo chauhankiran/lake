@@ -3,14 +3,12 @@
 <div class="container my-4">
   <div class="row">
     <div class="col-md-12">
-      
-        <div class="row mb-3">
-          <div class="col-md-6"><h1>Projects (<%= count %>)</h1></div>
-          <div class="col-md-6 d-flex align-items-center justify-content-end">
-            <a href="/projects/new" class="btn btn-primary">New project</a>
-          </div>
+      <div class="row mb-3">
+        <div class="col-md-6"><h1>Projects (<%= count %>)</h1></div>
+        <div class="col-md-6 d-flex align-items-center justify-content-end">
+          <a href="/projects/new" class="btn btn-primary">New project</a>
         </div>
-      
+      </div>
 
       <table class="table table-bordered table-hover">
         <thead>
@@ -18,6 +16,7 @@
             <th>Id</th>
             <th>Key</th>
             <th>Name</th>
+            <th>Created by</th>
           </tr>
         </thead>
         <tbody>
@@ -28,6 +27,7 @@
                 <a href="/projects/<%= project.id %>"><%= project.key %></a>
               </td>
               <td><%= project.name %></td>
+              <td><%= project.user?.firstName %> <%= project.user?.lastName %></td>
             </tr>
           <% }) %>
         </tbody>

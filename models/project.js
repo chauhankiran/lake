@@ -5,7 +5,9 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Project extends Model {
     static associate(models) {
-      // define association here
+      Project.belongsTo(models.User, {
+        as: "user",
+      });
     }
   }
   Project.init(
@@ -14,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       key: DataTypes.STRING,
       description: DataTypes.TEXT,
       active: DataTypes.BOOLEAN,
+      userId: DataTypes.INTEGER,
     },
     {
       sequelize,

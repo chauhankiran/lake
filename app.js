@@ -164,7 +164,14 @@ app.get("/dashboard", auth, async (req, res, next) => {
 
 // projects.
 app.get("/projects", auth, async (req, res, next) => {
-  const projects = await Project.findAndCountAll();
+  const projects = await Project.findAndCountAll({
+    include: [
+      {
+        model: User,
+        as: "user",
+      },
+    ],
+  });
   res.render("projects", { projects: projects.rows, count: projects.count });
 });
 
@@ -210,11 +217,15 @@ app.post("/projects", auth, async (req, res, next) => {
   const { name, key, description } = req.body;
 
   try {
-    const project = await Project.create({
-      name,
-      key,
-      description,
-    });
+    const project = await Project.create(
+      {
+        name,
+        key,
+        description,
+        userId: req.user.id,
+      },
+      { silent: true }
+    );
 
     res.redirect(`/projects/${project.id}`);
   } catch (err) {
@@ -233,6 +244,8 @@ app.put("/projects/:id", auth, async (req, res, next) => {
     project.name = name;
     project.key = key;
     project.description = description;
+    project.userId = req.user.id;
+    project.updatedAt = sequelize.fn("NOW");
 
     await project.save();
 
@@ -307,11 +320,15 @@ app.post("/issues", auth, async (req, res, next) => {
   const { projectId, title, description } = req.body;
 
   try {
-    const issue = await Issue.create({
-      projectId,
-      title,
-      description,
-    });
+    const issue = await Issue.create(
+      {
+        projectId,
+        title,
+        description,
+        userId: req.user.id,
+      },
+      { silent: true }
+    );
 
     res.redirect(`/issues/${issue.id}`);
   } catch (err) {
@@ -330,6 +347,8 @@ app.put("/issues/:id", auth, async (req, res, next) => {
     issue.projectId = projectId;
     issue.title = title;
     issue.description = description;
+    issue.userId = req.user.id;
+    issue.updatedAt = sequelize.fn("NOW");
 
     await issue.save();
 
