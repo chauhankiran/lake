@@ -1,6 +1,11 @@
 <nav class="d-flex flex-fill border-bottom">
   <div class="d-flex flex-fill justify-content-start">
     <a href="/" class="p-4">Lake</a>
+    <% if (userId) { %> 
+      <a href="/dashboard" class="p-4">Dashboard</a>
+      <a href="/issues" class="p-4">Issues</a>
+      <a href="/issues/new" class="p-4">+ Issue</a>
+    <% } %>
   </div>
   <div class="d-flex flex-fill justify-content-end">
     <% if (userId) { %> 
