@@ -91,7 +91,6 @@ passport.deserializeUser(async (id, done) => {
 app.use((req, res, next) => {
   if (req.user) {
     res.locals.userId = req.user.id;
-    console.log(res.locals.userId);
   } else {
     res.locals.userId = null;
   }
@@ -281,7 +280,13 @@ app.get("/issues", auth, async (req, res, next) => {
 
 // new issue.
 app.get("/issues/new", auth, async (req, res, next) => {
-  res.render("new-issue");
+  // Get list of all projects to display as dropdown.
+  try {
+    const projects = await Project.findAll();
+    res.render("new-issue", { projects });
+  } catch (err) {
+    next(err);
+  }
 });
 
 // show issue.
@@ -308,8 +313,9 @@ app.get("/issues/:id/edit", auth, async (req, res, next) => {
   const id = req.params.id;
 
   try {
+    const projects = await Project.findAll();
     const issue = await Issue.findOne({ where: { id } });
-    res.render("edit-issue", { issue });
+    res.render("edit-issue", { issue, projects });
   } catch (err) {
     next(err);
   }
@@ -322,7 +328,7 @@ app.post("/issues", auth, async (req, res, next) => {
   try {
     const issue = await Issue.create(
       {
-        projectId,
+        projectId: parseInt(projectId, 10),
         title,
         description,
         userId: req.user.id,
@@ -344,7 +350,7 @@ app.put("/issues/:id", auth, async (req, res, next) => {
   try {
     const issue = await Issue.findOne({ where: { id } });
 
-    issue.projectId = projectId;
+    issue.projectId = parseInt(projectId, 10);
     issue.title = title;
     issue.description = description;
     issue.userId = req.user.id;

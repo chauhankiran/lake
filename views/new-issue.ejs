@@ -9,7 +9,11 @@
           <form action="/issues" method="post">
             <div class="mb-3">
               <label for="projectId">Project</label>
-              <input type="text" name="projectId" id="projectId" class="form-control" placeholder="Example">
+              <select name="projectId" id="projectId" class="form-select">
+                <% projects.forEach(function (project) { %>
+                  <option value="<%= project.id %>"><%= project.name %></option>
+                <% }) %>
+              </select>
             </div>
             
             <div class="mb-3">
