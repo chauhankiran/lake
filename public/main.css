@@ -8,9 +8,15 @@ h1 {
   font-size: 48px;
 }
 a,
+.btn-link,
+.form-select,
+.form-control {
+  font-size: 20px;
+}
+a,
 .btn-link {
   color: darkred;
-  font-size: 20px;
+
   padding: 0;
   text-decoration: none;
 }
@@ -20,9 +26,11 @@ a:hover(:not(.btn-primary)),
   text-decoration: underline;
 }
 .btn,
+.form-select,
 .form-control {
   border-radius: 0;
 }
-.form-control:focus {
+.form-control:focus,
+.form-select:focus {
   box-shadow: none;
 }
