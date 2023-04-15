@@ -4,20 +4,19 @@ const dayjs = require("dayjs");
 const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class Comment extends Model {
     static associate(models) {
-      User.hasMany(models.Project);
-      User.hasMany(models.Issue);
-      User.hasMany(models.Comment);
+      Comment.belongsTo(models.User, {
+        as: "user",
+      });
     }
   }
-  User.init(
+  Comment.init(
     {
-      firstName: DataTypes.STRING,
-      lastName: DataTypes.STRING,
-      email: DataTypes.STRING,
-      password: DataTypes.STRING,
+      content: DataTypes.TEXT,
+      userId: DataTypes.INTEGER,
       active: DataTypes.BOOLEAN,
+      issueId: DataTypes.INTEGER,
       createdAt: {
         type: DataTypes.DATE,
         get() {
@@ -33,8 +32,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "User",
+      modelName: "Comment",
     }
   );
-  return User;
+  return Comment;
 };

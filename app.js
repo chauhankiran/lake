@@ -8,7 +8,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const methodOverride = require("method-override");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
-const { sequelize, Project, Issue, User } = require("./models");
+const { sequelize, Project, Issue, Comment, User } = require("./models");
 const app = express();
 
 app.set("view engine", "ejs");
@@ -295,11 +295,28 @@ app.get("/issues/:id", auth, async (req, res, next) => {
 
   try {
     const issue = await Issue.findOne({ where: { id } });
+    const comments = await Comment.findAll({
+      where: {
+        issueId: id,
+      },
+      include: [
+        {
+          model: User,
+          as: "user",
+        },
+      ],
+    });
+
     if (issue) {
-      res.render("show-issue", { issue, error: "" });
+      res.render("show-issue", {
+        issue,
+        comments,
+        error: "",
+      });
     } else {
       res.render("show-issue", {
         issue: {},
+        comments: {},
         error: "Either issue doesn't exist or you don't have rights to access",
       });
     }
@@ -373,6 +390,26 @@ app.delete("/issues/:id", auth, async (req, res, next) => {
     await issue.destroy();
 
     res.redirect(`/issues`);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// create comment.
+app.post("/comments", auth, async (req, res, next) => {
+  const { content, issueId } = req.body;
+
+  try {
+    await Comment.create(
+      {
+        content,
+        issueId,
+        userId: req.user.id,
+      },
+      { silent: true }
+    );
+
+    res.redirect(`/issues/${issueId}`);
   } catch (err) {
     next(err);
   }
