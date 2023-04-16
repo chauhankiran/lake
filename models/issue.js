@@ -2,6 +2,7 @@
 
 const dayjs = require("dayjs");
 const { Model } = require("sequelize");
+const { dateFormat } = require("../constants/globals");
 
 module.exports = (sequelize, DataTypes) => {
   class Issue extends Model {
@@ -17,13 +18,13 @@ module.exports = (sequelize, DataTypes) => {
       createdAt: {
         type: DataTypes.DATE,
         get() {
-          return dayjs(this.getDataValue("createdAt")).format("DD MMM YYYY");
+          return dayjs(this.getDataValue("createdAt")).format(dateFormat);
         },
       },
       updatedAt: {
         type: DataTypes.DATE,
         get() {
-          return dayjs(this.getDataValue("updatedAt")).format("DD MMM YYYY");
+          return dayjs(this.getDataValue("updatedAt")).format(dateFormat);
         },
       },
     },
