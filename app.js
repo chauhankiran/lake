@@ -99,7 +99,7 @@ app.use((req, res, next) => {
 
 // login.
 app.get("/login", async (req, res, next) => {
-  res.render("login");
+  res.render("login", { page: "login" });
 });
 
 // login.
@@ -125,7 +125,7 @@ app.post("/login", async (req, res, next) => {
 
 // register.
 app.get("/register", async (req, res, next) => {
-  res.render("register");
+  res.render("register", { page: "register" });
 });
 
 // register.
@@ -153,12 +153,12 @@ app.post("/register", async (req, res, next) => {
 
 // home.
 app.get("/", async (req, res, next) => {
-  res.render("home");
+  res.render("home", { page: "" });
 });
 
 // dashboard.
 app.get("/dashboard", auth, async (req, res, next) => {
-  res.render("dashboard");
+  res.render("dashboard", { page: "dashboard" });
 });
 
 // projects.
@@ -171,12 +171,16 @@ app.get("/projects", auth, async (req, res, next) => {
       },
     ],
   });
-  res.render("projects", { projects: projects.rows, count: projects.count });
+  res.render("projects", {
+    projects: projects.rows,
+    count: projects.count,
+    page: "projects",
+  });
 });
 
 // new project.
 app.get("/projects/new", auth, async (req, res, next) => {
-  res.render("new-project");
+  res.render("new-project", { page: "new-project" });
 });
 
 // show project.
@@ -186,9 +190,10 @@ app.get("/projects/:id", auth, async (req, res, next) => {
   try {
     const project = await Project.findOne({ where: { id } });
     if (project) {
-      res.render("show-project", { project, error: "" });
+      res.render("show-project", { project, error: "", page: "show-project" });
     } else {
       res.render("show-project", {
+        page: "show-project",
         project: {},
         error:
           "Either project doesn't exist or you don't have rights to access",
@@ -205,7 +210,7 @@ app.get("/projects/:id/edit", auth, async (req, res, next) => {
 
   try {
     const project = await Project.findOne({ where: { id } });
-    res.render("edit-project", { project });
+    res.render("edit-project", { project, page: "edit-project" });
   } catch (err) {
     next(err);
   }
@@ -272,7 +277,11 @@ app.delete("/projects/:id", auth, async (req, res, next) => {
 app.get("/issues", auth, async (req, res, next) => {
   try {
     const issues = await Issue.findAndCountAll();
-    res.render("issues", { issues: issues.rows, count: issues.count });
+    res.render("issues", {
+      issues: issues.rows,
+      count: issues.count,
+      page: "issues",
+    });
   } catch (err) {
     next(err);
   }
@@ -283,7 +292,7 @@ app.get("/issues/new", auth, async (req, res, next) => {
   // Get list of all projects to display as dropdown.
   try {
     const projects = await Project.findAll();
-    res.render("new-issue", { projects });
+    res.render("new-issue", { projects, page: "new-issue" });
   } catch (err) {
     next(err);
   }
@@ -310,12 +319,14 @@ app.get("/issues/:id", auth, async (req, res, next) => {
     if (issue) {
       res.render("show-issue", {
         issue,
+        page: "show-issue",
         comments,
         error: "",
       });
     } else {
       res.render("show-issue", {
         issue: {},
+        page: "show-issue",
         comments: {},
         error: "Either issue doesn't exist or you don't have rights to access",
       });
@@ -332,7 +343,7 @@ app.get("/issues/:id/edit", auth, async (req, res, next) => {
   try {
     const projects = await Project.findAll();
     const issue = await Issue.findOne({ where: { id } });
-    res.render("edit-issue", { issue, projects });
+    res.render("edit-issue", { issue, projects, page: "edit-project" });
   } catch (err) {
     next(err);
   }

@@ -34,3 +34,6 @@ a:hover(:not(.btn-primary)),
 .form-select:focus {
   box-shadow: none;
 }
+.active {
+  text-decoration: underline;
+}
