@@ -6,20 +6,26 @@
       <h1 class="mb-3">New project</h1>
       <div class="row">
         <div class="col-md-6">
-          <form action="/projects" method="post">
+          <form action="/projects" method="post" class="needs-validation" novalidate>
             <div class="mb-3">
               <label for="name">Name</label>
-              <input type="text" name="name" id="name" class="form-control" placeholder="Example">
+              <input type="text" name="name" id="name" class="form-control" placeholder="Example" required>
+              <div class="invalid-feedback">
+                Project name is required.
+              </div>
             </div>
 
             <div class="mb-3">
               <label for="key">Key</label>
-              <input type="text" name="key" id="key" class="form-control" placeholder="EX">
+              <input type="text" name="key" id="key" class="form-control" placeholder="EX" required>
+              <div class="invalid-feedback">
+                Key is required.
+              </div>
             </div>
 
             <div class="mb-3">
               <label for="description">Description</label>
-              <textarea name="description" id="description" cols="30" rows="10" class="form-control"></textarea>
+              <textarea name="description" id="description" cols="30" rows="10" class="form-control" placeholder="Optional project description"></textarea>
             </div>
 
             <div class="mb-3">

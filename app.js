@@ -139,9 +139,9 @@ app.post("/register", async (req, res, next) => {
 
   try {
     await User.create({
-      firstName,
-      lastName,
-      email,
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
+      email: email.trim(),
       password: passwordHash,
     });
 
@@ -223,9 +223,9 @@ app.post("/projects", auth, async (req, res, next) => {
   try {
     const project = await Project.create(
       {
-        name,
-        key,
-        description,
+        name: name.trim(),
+        key: key.trim(),
+        description: description.trim(),
         userId: req.user.id,
       },
       { silent: true }
@@ -245,9 +245,9 @@ app.put("/projects/:id", auth, async (req, res, next) => {
   try {
     const project = await Project.findOne({ where: { id } });
 
-    project.name = name;
-    project.key = key;
-    project.description = description;
+    project.name = name.trim();
+    project.key = key.trim();
+    project.description = description.trim();
     project.userId = req.user.id;
     project.updatedAt = sequelize.fn("NOW");
 
@@ -357,8 +357,8 @@ app.post("/issues", auth, async (req, res, next) => {
     const issue = await Issue.create(
       {
         projectId: parseInt(projectId, 10),
-        title,
-        description,
+        title: title.trim(),
+        description: description.trim(),
         userId: req.user.id,
       },
       { silent: true }
@@ -379,8 +379,8 @@ app.put("/issues/:id", auth, async (req, res, next) => {
     const issue = await Issue.findOne({ where: { id } });
 
     issue.projectId = parseInt(projectId, 10);
-    issue.title = title;
-    issue.description = description;
+    issue.title = title.trim();
+    issue.description = description.trim();
     issue.userId = req.user.id;
     issue.updatedAt = sequelize.fn("NOW");
 
@@ -413,7 +413,7 @@ app.post("/comments", auth, async (req, res, next) => {
   try {
     await Comment.create(
       {
-        content,
+        content: content.trim(),
         issueId,
         userId: req.user.id,
       },
