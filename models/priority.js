@@ -5,21 +5,15 @@ const { Model } = require("sequelize");
 const { dateFormat } = require("../constants/globals");
 
 module.exports = (sequelize, DataTypes) => {
-  class Issue extends Model {
+  class Priority extends Model {
     static associate(models) {
-      Issue.belongsTo(models.Type);
-      Issue.belongsTo(models.Priority);
+      Priority.hasMany(models.Issue);
     }
   }
-  Issue.init(
+  Priority.init(
     {
-      title: DataTypes.STRING,
-      description: DataTypes.TEXT,
+      name: DataTypes.STRING,
       active: DataTypes.BOOLEAN,
-      projectId: DataTypes.INTEGER,
-      userId: DataTypes.INTEGER,
-      priorityId: DataTypes.INTEGER,
-      typeId: DataTypes.INTEGER,
       createdAt: {
         type: DataTypes.DATE,
         get() {
@@ -35,8 +29,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelName: "Issue",
+      modelName: "Priority",
     }
   );
-  return Issue;
+  return Priority;
 };

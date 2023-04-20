@@ -8,7 +8,15 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const methodOverride = require("method-override");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
-const { sequelize, Project, Issue, Comment, User } = require("./models");
+const {
+  sequelize,
+  Project,
+  Issue,
+  Comment,
+  Type,
+  Priority,
+  User,
+} = require("./models");
 const app = express();
 
 app.set("view engine", "ejs");
@@ -292,7 +300,9 @@ app.get("/issues/new", auth, async (req, res, next) => {
   // Get list of all projects to display as dropdown.
   try {
     const projects = await Project.findAll();
-    res.render("new-issue", { projects, page: "new-issue" });
+    const types = await Type.findAll();
+    const priorities = await Priority.findAll();
+    res.render("new-issue", { projects, types, priorities, page: "new-issue" });
   } catch (err) {
     next(err);
   }
@@ -342,8 +352,16 @@ app.get("/issues/:id/edit", auth, async (req, res, next) => {
 
   try {
     const projects = await Project.findAll();
+    const types = await Type.findAll();
+    const priorities = await Priority.findAll();
     const issue = await Issue.findOne({ where: { id } });
-    res.render("edit-issue", { issue, projects, page: "edit-project" });
+    res.render("edit-issue", {
+      issue,
+      projects,
+      types,
+      priorities,
+      page: "edit-project",
+    });
   } catch (err) {
     next(err);
   }
@@ -351,7 +369,7 @@ app.get("/issues/:id/edit", auth, async (req, res, next) => {
 
 // create issue.
 app.post("/issues", auth, async (req, res, next) => {
-  const { projectId, title, description } = req.body;
+  const { projectId, title, description, typeId, priorityId } = req.body;
 
   try {
     const issue = await Issue.create(
@@ -359,6 +377,8 @@ app.post("/issues", auth, async (req, res, next) => {
         projectId: parseInt(projectId, 10),
         title: title.trim(),
         description: description.trim(),
+        typeId: parseInt(typeId, 10),
+        priorityId: parseInt(priorityId, 10),
         userId: req.user.id,
       },
       { silent: true }
@@ -373,7 +393,7 @@ app.post("/issues", auth, async (req, res, next) => {
 // update issue.
 app.put("/issues/:id", auth, async (req, res, next) => {
   const id = req.params.id;
-  const { projectId, title, description } = req.body;
+  const { projectId, title, description, typeId, priorityId } = req.body;
 
   try {
     const issue = await Issue.findOne({ where: { id } });
@@ -381,6 +401,8 @@ app.put("/issues/:id", auth, async (req, res, next) => {
     issue.projectId = parseInt(projectId, 10);
     issue.title = title.trim();
     issue.description = description.trim();
+    issue.typeId = parseInt(typeId, 10);
+    issue.priorityId = parseInt(priorityId, 10);
     issue.userId = req.user.id;
     issue.updatedAt = sequelize.fn("NOW");
 

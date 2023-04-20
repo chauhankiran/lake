@@ -37,6 +37,38 @@
             </div>
 
             <div class="mb-3">
+              <label for="typeId">Type</label>
+              <select name="typeId" id="typeId" class="form-select" required>
+                <% types.forEach(function (type) { %>
+                  <% if (type.id == issue.TypeId) { %>
+                    <option value="<%= type.id %>" selected><%= type.name %></option>
+                  <% } else { %>
+                    <option value="<%= type.id %>"><%= type.name %></option>
+                  <% } %>
+                <% }) %>
+              </select>
+              <div class="invalid-feedback">
+                Please select type.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="priorityId">Priority</label>
+              <select name="priorityId" id="priorityId" class="form-select" required>
+                <% priorities.forEach(function (priority) { %>
+                  <% if (priority.id == issue.PriorityId) { %>
+                    <option value="<%= priority.id %>" selected><%= priority.name %></option>
+                  <% } else { %>
+                    <option value="<%= priority.id %>"><%= priority.name %></option>
+                  <% } %>
+                <% }) %>
+              </select>
+              <div class="invalid-feedback">
+                Please select priority.
+              </div>
+            </div>
+
+            <div class="mb-3">
               <button type="submit" class="btn btn-primary">Update issue</button>
             </div>
           </form>
