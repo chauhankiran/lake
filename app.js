@@ -172,17 +172,13 @@ app.get("/dashboard", auth, async (req, res, next) => {
 
 // projects.
 app.get("/projects", auth, async (req, res, next) => {
-  const projects = await Project.findAndCountAll({
-    include: [
-      {
-        model: User,
-        as: "user",
-      },
-    ],
-  });
+  const user = await User.findByPk(req.user?.id);
+  const projects = await user.getProjects();
+  const count = await user.countProjects();
+
   res.render("projects", {
-    projects: projects.rows,
-    count: projects.count,
+    projects: projects,
+    count,
     page: "projects",
   });
 });
@@ -312,7 +308,8 @@ app.get("/issues", auth, async (req, res, next) => {
 app.get("/issues/new", auth, async (req, res, next) => {
   // Get list of all projects to display as dropdown.
   try {
-    const projects = await Project.findAll();
+    const user = await User.findByPk(req.user?.id);
+    const projects = await user.getProjects();
     const types = await Type.findAll();
     const priorities = await Priority.findAll();
     res.render("new-issue", { projects, types, priorities, page: "new-issue" });
@@ -376,7 +373,8 @@ app.get("/issues/:id/edit", auth, async (req, res, next) => {
   const id = req.params.id;
 
   try {
-    const projects = await Project.findAll();
+    const user = await User.findByPk(req.user?.id);
+    const projects = await user.getProjects();
     const types = await Type.findAll();
     const priorities = await Priority.findAll();
     const issue = await Issue.findOne({ where: { id } });
