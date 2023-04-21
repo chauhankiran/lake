@@ -15,6 +15,7 @@ const {
   Comment,
   Type,
   Priority,
+  ProjectMember,
   User,
 } = require("./models");
 const app = express();
@@ -229,11 +230,21 @@ app.post("/projects", auth, async (req, res, next) => {
   const { name, key, description } = req.body;
 
   try {
+    // Create project.
     const project = await Project.create(
       {
         name: name.trim(),
         key: key.trim(),
         description: description.trim(),
+        userId: req.user.id,
+      },
+      { silent: true }
+    );
+
+    // Add created user as project member.
+    await ProjectMember.create(
+      {
+        projectId: project.id,
         userId: req.user.id,
       },
       { silent: true }
