@@ -16,6 +16,7 @@
             <th>Id</th>
             <th>Key</th>
             <th>Name</th>
+            <th>Completion date</th>
             <th>Created by</th>
             <th>Created at</th>
           </tr>
@@ -28,6 +29,7 @@
                 <a href="/projects/<%= project.id %>"><%= project.key %></a>
               </td>
               <td><%= project.name %></td>
+              <td><%= project.completionDate ? project.completionDate : "-" %></td>
               <td><%= project.user?.firstName %> <%= project.user?.lastName %></td>
               <td><%= project.createdAt %></td>
             </tr>

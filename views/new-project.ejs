@@ -8,7 +8,7 @@
         <div class="col-md-6">
           <form action="/projects" method="post" class="needs-validation" novalidate>
             <div class="mb-3">
-              <label for="name">Name</label>
+              <label for="name">Name<sup>*</sup></label>
               <input type="text" name="name" id="name" class="form-control" placeholder="Example" required>
               <div class="invalid-feedback">
                 Project name is required.
@@ -16,11 +16,16 @@
             </div>
 
             <div class="mb-3">
-              <label for="key">Key</label>
+              <label for="key">Key<sup>*</sup></label>
               <input type="text" name="key" id="key" class="form-control" placeholder="EX" required>
               <div class="invalid-feedback">
                 Key is required.
               </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="completionDate">Completion date</label>
+              <input type="date" name="completionDate" id="completionDate" class="form-control">
             </div>
 
             <div class="mb-3">

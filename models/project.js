@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       description: DataTypes.TEXT,
       active: DataTypes.BOOLEAN,
       userId: DataTypes.INTEGER,
+      completionDate: DataTypes.DATE,
       createdAt: {
         type: DataTypes.DATE,
         get() {

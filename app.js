@@ -227,7 +227,7 @@ app.get("/projects/:id/edit", auth, async (req, res, next) => {
 
 // create project.
 app.post("/projects", auth, async (req, res, next) => {
-  const { name, key, description } = req.body;
+  const { name, key, completionDate, description } = req.body;
 
   try {
     // Create project.
@@ -235,6 +235,7 @@ app.post("/projects", auth, async (req, res, next) => {
       {
         name: name.trim(),
         key: key.trim(),
+        completionDate: new Date(completionDate),
         description: description.trim(),
         userId: req.user.id,
       },
@@ -259,13 +260,14 @@ app.post("/projects", auth, async (req, res, next) => {
 // update project.
 app.put("/projects/:id", auth, async (req, res, next) => {
   const id = req.params.id;
-  const { name, key, description } = req.body;
+  const { name, key, completionDate, description } = req.body;
 
   try {
     const project = await Project.findOne({ where: { id } });
 
     project.name = name.trim();
     project.key = key.trim();
+    project.completionDate = new Date(completionDate);
     project.description = description.trim();
     project.userId = req.user.id;
     project.updatedAt = sequelize.fn("NOW");

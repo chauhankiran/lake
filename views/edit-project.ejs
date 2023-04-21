@@ -24,6 +24,11 @@
             </div>
 
             <div class="mb-3">
+              <label for="completionDate">Completion date</label>
+              <input type="date" name="completionDate" id="completionDate" class="form-control" value="<%= project.completionDate %>">
+            </div>
+
+            <div class="mb-3">
               <label for="description">Description</label>
               <textarea name="description" id="description" cols="30" rows="10" class="form-control" placeholder="Optional project description"><%= project.description %></textarea>
             </div>
