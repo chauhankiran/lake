@@ -7,7 +7,9 @@ const { dateFormat } = require("../constants/globals");
 module.exports = (sequelize, DataTypes) => {
   class Priority extends Model {
     static associate(models) {
-      Priority.hasMany(models.Issue);
+      Priority.hasMany(models.Issue, {
+        foreignKey: "priorityId",
+      });
     }
   }
   Priority.init(

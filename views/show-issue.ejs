@@ -11,6 +11,16 @@
         <h1 class="mb-3"><%= issue.id %>. <%= issue.title %></h1>
         <p class="fst-italic"><%= issue.description %></p>
         
+        <div class="col-md-12">
+          <span>Type</span>:
+          <span><%= issue.type.name %></span>
+        </div>
+
+        <div class="col-md-12">
+          <span>Priority</span>:
+          <span><%= issue.priority.name %></span>
+        </div>
+
         <hr>
         
         <div class="row">

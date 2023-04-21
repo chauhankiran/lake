@@ -7,7 +7,9 @@ const { dateFormat } = require("../constants/globals");
 module.exports = (sequelize, DataTypes) => {
   class Type extends Model {
     static associate(models) {
-      Type.hasMany(models.Issue);
+      Type.hasMany(models.Issue, {
+        foreignKey: "typeId",
+      });
     }
   }
   Type.init(

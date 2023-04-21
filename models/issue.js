@@ -7,8 +7,14 @@ const { dateFormat } = require("../constants/globals");
 module.exports = (sequelize, DataTypes) => {
   class Issue extends Model {
     static associate(models) {
-      Issue.belongsTo(models.Type);
-      Issue.belongsTo(models.Priority);
+      Issue.belongsTo(models.Type, {
+        foreignKey: "typeId",
+        as: "type",
+      });
+      Issue.belongsTo(models.Priority, {
+        foreignKey: "priorityId",
+        as: "priority",
+      });
     }
   }
   Issue.init(

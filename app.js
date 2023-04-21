@@ -313,7 +313,19 @@ app.get("/issues/:id", auth, async (req, res, next) => {
   const id = req.params.id;
 
   try {
-    const issue = await Issue.findOne({ where: { id } });
+    const issue = await Issue.findOne({
+      where: { id },
+      include: [
+        {
+          model: Type,
+          as: "type",
+        },
+        {
+          model: Priority,
+          as: "priority",
+        },
+      ],
+    });
     const comments = await Comment.findAll({
       where: {
         issueId: id,
