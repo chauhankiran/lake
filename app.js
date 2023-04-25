@@ -227,18 +227,22 @@ app.get("/projects/:id/edit", auth, async (req, res, next) => {
 app.post("/projects", auth, async (req, res, next) => {
   const { name, key, completionDate, description } = req.body;
 
+  console.log("[completionDate]: ", completionDate);
+
   try {
     // Create project.
-    const project = await Project.create(
-      {
-        name: name.trim(),
-        key: key.trim(),
-        completionDate: new Date(completionDate),
-        description: description.trim(),
-        userId: req.user.id,
-      },
-      { silent: true }
-    );
+    const projectObj = {
+      name: name.trim(),
+      key: key.trim(),
+      description: description.trim(),
+      userId: req.user.id,
+    };
+
+    if (completionDate) {
+      projectObj.completionDate = new Date(completionDate);
+    }
+
+    const project = await Project.create(projectObj, { silent: true });
 
     // Add created user as project member.
     await ProjectMember.create(
