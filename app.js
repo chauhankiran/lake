@@ -4,6 +4,7 @@ const express = require("express");
 const morgan = require("morgan");
 const cookie = require("cookie-parser");
 const session = require("express-session");
+const flash = require("express-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const methodOverride = require("method-override");
@@ -51,6 +52,7 @@ app.use(
     store,
   })
 );
+app.use(flash());
 
 // store.sync();
 
@@ -247,6 +249,7 @@ app.post("/projects", auth, async (req, res, next) => {
       { silent: true }
     );
 
+    req.flash("info", "Project is created");
     res.redirect(`/projects/${project.id}`);
   } catch (err) {
     next(err);
@@ -407,6 +410,7 @@ app.post("/issues", auth, async (req, res, next) => {
       { silent: true }
     );
 
+    req.flash("info", "Issue is created");
     res.redirect(`/issues/${issue.id}`);
   } catch (err) {
     next(err);
