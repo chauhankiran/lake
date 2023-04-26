@@ -475,6 +475,35 @@ app.post("/comments", auth, async (req, res, next) => {
   }
 });
 
+// get settings.
+app.get("/settings", auth, async (req, res, next) => {
+  try {
+    const user = await User.findOne({ where: { id: req.user?.id } });
+    res.render("settings", { page: "settings", user });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// update settings.
+app.post("/settings", auth, async (req, res, next) => {
+  const { firstName, lastName } = req.body;
+
+  try {
+    const user = await User.findOne({ where: { id: req.user?.id } });
+
+    user.firstName = firstName;
+    user.lastName = lastName;
+
+    await user.save();
+
+    req.flash("info", "Settings are updated.");
+    res.redirect("/settings");
+  } catch (err) {
+    next(err);
+  }
+});
+
 // logout.
 app.get("/logout", auth, async (req, res, next) => {
   req.logOut((err) => {
