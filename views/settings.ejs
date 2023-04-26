@@ -1,0 +1,46 @@
+<%- include("shared/header") %>
+
+<div class="container my-4">
+  <div class="row">
+    <div class="col-md-12">
+
+      <!-- Display alert/flash message after settings are created. -->
+      <% if (locals.messages.info) { %>
+        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+          <%= locals.messages.info %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% } %>
+
+      <h1 class="mb-3">Settings</h1>
+      <div class="row">
+        <div class="col-md-6">
+          <form action="/settings" method="post" class="needs-validation" novalidate>
+            <div class="mb-3">
+              <label for="firstName">First name</label>
+              <input type="text" name="firstName" id="firstName" class="form-control" placeholder="<%= user.firstName %>" value="<%= user.firstName %>" required>
+              <div class="invalid-feedback">
+                First name can't be empty.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="lastName">Last name</label>
+              <input type="text" name="lastName" id="lastName" class="form-control" placeholder="<%= user.lastName %>" value="<%= user.lastName %>" required>
+              <div class="invalid-feedback">
+                Last name can't be empty.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <button type="submit" class="btn btn-primary">Update settings</button>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-6"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include("shared/footer") %>
