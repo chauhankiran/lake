@@ -10,6 +10,7 @@
   <div class="d-flex flex-fill justify-content-end">
     <% if (userId) { %> 
       <a href="/projects" class="p-4 <%= page == 'projects' ? 'active' : '' %>">Projects</a>
+      <a href="/settings" class="p-4 <%= page == 'settings' ? 'active' : '' %>">Settings</a>
       <a href="/logout" class="p-4">Logout</a>
     <% } else { %>
       <a href="/login" class="p-4 <%= page == 'login' ? 'active' : '' %>">Login</a>
