@@ -319,7 +319,17 @@ app.get("/issues/new", auth, async (req, res, next) => {
     const projects = await user.getProjects();
     const types = await Type.findAll();
     const priorities = await Priority.findAll();
-    res.render("new-issue", { projects, types, priorities, page: "new-issue" });
+
+    // TODO: Update the following query to only fetch the users based on project selection.
+    const users = await User.findAll();
+
+    res.render("new-issue", {
+      projects,
+      types,
+      priorities,
+      users,
+      page: "new-issue",
+    });
   } catch (err) {
     next(err);
   }
@@ -340,6 +350,10 @@ app.get("/issues/:id", auth, async (req, res, next) => {
         {
           model: Priority,
           as: "priority",
+        },
+        {
+          model: User,
+          as: "assignee",
         },
       ],
     });
@@ -385,11 +399,16 @@ app.get("/issues/:id/edit", auth, async (req, res, next) => {
     const types = await Type.findAll();
     const priorities = await Priority.findAll();
     const issue = await Issue.findOne({ where: { id } });
+
+    // TODO: Update the following query to only fetch the users based on project selection.
+    const users = await User.findAll();
+
     res.render("edit-issue", {
       issue,
       projects,
       types,
       priorities,
+      users,
       page: "edit-project",
     });
   } catch (err) {
@@ -399,7 +418,8 @@ app.get("/issues/:id/edit", auth, async (req, res, next) => {
 
 // create issue.
 app.post("/issues", auth, async (req, res, next) => {
-  const { projectId, title, description, typeId, priorityId } = req.body;
+  const { projectId, title, description, typeId, priorityId, assigneeId } =
+    req.body;
 
   try {
     const issue = await Issue.create(
@@ -410,6 +430,7 @@ app.post("/issues", auth, async (req, res, next) => {
         typeId: parseInt(typeId, 10),
         priorityId: parseInt(priorityId, 10),
         userId: req.user.id,
+        assigneeId: parseInt(assigneeId, 10),
       },
       { silent: true }
     );
@@ -424,7 +445,8 @@ app.post("/issues", auth, async (req, res, next) => {
 // update issue.
 app.put("/issues/:id", auth, async (req, res, next) => {
   const id = req.params.id;
-  const { projectId, title, description, typeId, priorityId } = req.body;
+  const { projectId, title, description, typeId, priorityId, assigneeId } =
+    req.body;
 
   try {
     const issue = await Issue.findOne({ where: { id } });
@@ -434,6 +456,7 @@ app.put("/issues/:id", auth, async (req, res, next) => {
     issue.description = description.trim();
     issue.typeId = parseInt(typeId, 10);
     issue.priorityId = parseInt(priorityId, 10);
+    issue.assigneeId = parseInt(assigneeId, 10);
     issue.userId = req.user.id;
     issue.updatedAt = sequelize.fn("NOW");
 

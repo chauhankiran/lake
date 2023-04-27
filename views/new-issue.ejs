@@ -56,6 +56,15 @@
                 </div>
               </div>
 
+              <div class="mb-3">
+                <label for="assigneeId">Assignee</label>
+                <select name="assigneeId" id="assigneeId" class="form-select" required>
+                  <% users.forEach(function (user) { %>
+                    <option value="<%= user.id %>"><%= user.firstName %></option>
+                  <% }) %>
+                </select>
+              </div>
+
             <div class="mb-3">
               <button type="submit" class="btn btn-primary">Create issue</button>
             </div>

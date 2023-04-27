@@ -69,6 +69,19 @@
             </div>
 
             <div class="mb-3">
+              <label for="assigneeId">Assignee</label>
+              <select name="assigneeId" id="assigneeId" class="form-select" required>
+                <% users.forEach(function (user) { %>
+                  <% if (user.id == issue.assigneeId) { %>
+                    <option value="<%= user.id %>" selected><%= user.firstName %></option>
+                  <% } else { %>  
+                    <option value="<%= user.id %>"><%= user.firstName %></option>
+                  <% } %>
+                <% }) %>
+              </select>
+            </div>
+
+            <div class="mb-3">
               <button type="submit" class="btn btn-primary">Update issue</button>
             </div>
           </form>
