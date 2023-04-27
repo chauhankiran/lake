@@ -15,6 +15,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "priorityId",
         as: "priority",
       });
+      Issue.belongsTo(models.User, {
+        foreignKey: "assigneeId",
+        as: "assignee",
+      });
     }
   }
   Issue.init(
@@ -26,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       userId: DataTypes.INTEGER,
       priorityId: DataTypes.INTEGER,
       typeId: DataTypes.INTEGER,
+      assigneeId: DataTypes.INTEGER,
       createdAt: {
         type: DataTypes.DATE,
         get() {
