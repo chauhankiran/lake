@@ -169,7 +169,15 @@ app.get("/", async (req, res, next) => {
 
 // dashboard.
 app.get("/dashboard", auth, async (req, res, next) => {
-  res.render("dashboard", { page: "dashboard" });
+  try {
+    const assignedIssues = await Issue.findAll({
+      where: { assigneeId: req.user?.id },
+    });
+
+    res.render("dashboard", { page: "dashboard", assignedIssues });
+  } catch (err) {
+    next(err);
+  }
 });
 
 // projects.
