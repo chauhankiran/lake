@@ -1,7 +1,10 @@
 require("dotenv").config();
+const path = require("path");
 const crypto = require("crypto");
 const express = require("express");
+const favicon = require("serve-favicon");
 const morgan = require("morgan");
+const helmet = require("helmet");
 const cookie = require("cookie-parser");
 const session = require("express-session");
 const flash = require("express-flash");
@@ -23,7 +26,9 @@ const app = express();
 
 app.set("view engine", "ejs");
 
+app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
 app.use(morgan("tiny"));
+app.use(helmet());
 app.use(methodOverride("_method"));
 app.use(express.static("./public"));
 app.use(express.urlencoded({ extended: true }));
