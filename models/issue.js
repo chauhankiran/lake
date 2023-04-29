@@ -36,6 +36,7 @@ module.exports = (sequelize, DataTypes) => {
       typeId: DataTypes.INTEGER,
       assigneeId: DataTypes.INTEGER,
       statusId: DataTypes.INTEGER,
+      dueDate: DataTypes.DATE,
       createdAt: {
         type: DataTypes.DATE,
         get() {
