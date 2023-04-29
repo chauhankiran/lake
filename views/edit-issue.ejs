@@ -53,6 +53,22 @@
             </div>
 
             <div class="mb-3">
+              <label for="statusId">Status</label>
+              <select name="statusId" id="statusId" class="form-select" required>
+                <% statuses.forEach(function (status) { %>
+                  <% if (status.id == issue.statusId) { %>
+                    <option value="<%= status.id %>" selected><%= status.name %></option>
+                  <% } else { %>
+                    <option value="<%= status.id %>"><%= status.name %></option>
+                  <% } %>
+                <% }) %>
+              </select>
+              <div class="invalid-feedback">
+                Please select status.
+              </div>
+            </div>
+
+            <div class="mb-3">
               <label for="priorityId">Priority</label>
               <select name="priorityId" id="priorityId" class="form-select" required>
                 <% priorities.forEach(function (priority) { %>

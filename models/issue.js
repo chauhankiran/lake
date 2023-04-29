@@ -19,6 +19,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "assigneeId",
         as: "assignee",
       });
+      Issue.belongsTo(models.Status, {
+        foreignKey: "statusId",
+        as: "status",
+      });
     }
   }
   Issue.init(
@@ -31,6 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       priorityId: DataTypes.INTEGER,
       typeId: DataTypes.INTEGER,
       assigneeId: DataTypes.INTEGER,
+      statusId: DataTypes.INTEGER,
       createdAt: {
         type: DataTypes.DATE,
         get() {
