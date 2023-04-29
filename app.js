@@ -241,8 +241,6 @@ app.get("/projects/:id/edit", auth, async (req, res, next) => {
 app.post("/projects", auth, async (req, res, next) => {
   const { name, key, completionDate, description } = req.body;
 
-  console.log("[completionDate]: ", completionDate);
-
   try {
     // Create project.
     const projectObj = {
@@ -448,22 +446,27 @@ app.post("/issues", auth, async (req, res, next) => {
     priorityId,
     assigneeId,
     statusId,
+    dueDate,
   } = req.body;
 
   try {
-    const issue = await Issue.create(
-      {
-        projectId: parseInt(projectId, 10),
-        title: title.trim(),
-        description: description.trim(),
-        typeId: parseInt(typeId, 10),
-        priorityId: parseInt(priorityId, 10),
-        userId: req.user.id,
-        assigneeId: parseInt(assigneeId, 10),
-        statusId: parseInt(statusId, 10),
-      },
-      { silent: true }
-    );
+    // Create issue
+    const issueObj = {
+      projectId: parseInt(projectId, 10),
+      title: title.trim(),
+      description: description.trim(),
+      typeId: parseInt(typeId, 10),
+      priorityId: parseInt(priorityId, 10),
+      userId: req.user.id,
+      assigneeId: parseInt(assigneeId, 10),
+      statusId: parseInt(statusId, 10),
+    };
+
+    if (dueDate) {
+      issueObj.dueDate = new Date(dueDate);
+    }
+
+    const issue = await Issue.create(issueObj, { silent: true });
 
     req.flash("info", "Issue is created");
     res.redirect(`/issues/${issue.id}`);
@@ -483,6 +486,7 @@ app.put("/issues/:id", auth, async (req, res, next) => {
     priorityId,
     assigneeId,
     statusId,
+    dueDate,
   } = req.body;
 
   try {
@@ -497,6 +501,10 @@ app.put("/issues/:id", auth, async (req, res, next) => {
     issue.statusId = parseInt(statusId, 10);
     issue.userId = req.user.id;
     issue.updatedAt = sequelize.fn("NOW");
+
+    if (dueDate) {
+      issue.dueDate = new Date(dueDate);
+    }
 
     await issue.save();
 
