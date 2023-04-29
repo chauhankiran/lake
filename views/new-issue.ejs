@@ -32,38 +32,50 @@
               <textarea name="description" id="description" cols="30" rows="10" class="form-control" placeholder="Optional description of the issue"></textarea>
             </div>
 
-              <div class="mb-3">
-                <label for="typeId">Type</label>
-                <select name="typeId" id="typeId" class="form-select" required>
-                  <% types.forEach(function (type) { %>
-                    <option value="<%= type.id %>"><%= type.name %></option>
-                  <% }) %>
-                </select>
-                <div class="invalid-feedback">
-                  Please select type.
-                </div>
+            <div class="mb-3">
+              <label for="typeId">Type</label>
+              <select name="typeId" id="typeId" class="form-select" required>
+                <% types.forEach(function (type) { %>
+                  <option value="<%= type.id %>"><%= type.name %></option>
+                <% }) %>
+              </select>
+              <div class="invalid-feedback">
+                Please select type.
               </div>
+            </div>
 
-              <div class="mb-3">
-                <label for="priorityId">Priority</label>
-                <select name="priorityId" id="priorityId" class="form-select" required>
-                  <% priorities.forEach(function (priority) { %>
-                    <option value="<%= priority.id %>"><%= priority.name %></option>
-                  <% }) %>
-                </select>
-                <div class="invalid-feedback">
-                  Please select priority.
-                </div>
+            <div class="mb-3">
+              <label for="statusId">Status</label>
+              <select name="statusId" id="statusId" class="form-select" required>
+                <% statuses.forEach(function (status) { %>
+                  <option value="<%= status.id %>"><%= status.name %></option>
+                <% }) %>
+              </select>
+              <div class="invalid-feedback">
+                Please select status.
               </div>
+            </div>
 
-              <div class="mb-3">
-                <label for="assigneeId">Assignee</label>
-                <select name="assigneeId" id="assigneeId" class="form-select" required>
-                  <% users.forEach(function (user) { %>
-                    <option value="<%= user.id %>"><%= user.firstName %></option>
-                  <% }) %>
-                </select>
+            <div class="mb-3">
+              <label for="priorityId">Priority</label>
+              <select name="priorityId" id="priorityId" class="form-select" required>
+                <% priorities.forEach(function (priority) { %>
+                  <option value="<%= priority.id %>"><%= priority.name %></option>
+                <% }) %>
+              </select>
+              <div class="invalid-feedback">
+                Please select priority.
               </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="assigneeId">Assignee</label>
+              <select name="assigneeId" id="assigneeId" class="form-select" required>
+                <% users.forEach(function (user) { %>
+                  <option value="<%= user.id %>"><%= user.firstName %></option>
+                <% }) %>
+              </select>
+            </div>
 
             <div class="mb-3">
               <button type="submit" class="btn btn-primary">Create issue</button>
