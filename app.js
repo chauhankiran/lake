@@ -447,6 +447,7 @@ app.post("/issues", auth, async (req, res, next) => {
     assigneeId,
     statusId,
     dueDate,
+    estimation,
   } = req.body;
 
   try {
@@ -460,6 +461,7 @@ app.post("/issues", auth, async (req, res, next) => {
       userId: req.user.id,
       assigneeId: parseInt(assigneeId, 10),
       statusId: parseInt(statusId, 10),
+      estimation: parseInt(estimation, 10),
     };
 
     if (dueDate) {
@@ -487,6 +489,7 @@ app.put("/issues/:id", auth, async (req, res, next) => {
     assigneeId,
     statusId,
     dueDate,
+    estimation,
   } = req.body;
 
   try {
@@ -499,6 +502,7 @@ app.put("/issues/:id", auth, async (req, res, next) => {
     issue.priorityId = parseInt(priorityId, 10);
     issue.assigneeId = parseInt(assigneeId, 10);
     issue.statusId = parseInt(statusId, 10);
+    issue.estimation = parseInt(estimation, 10);
     issue.userId = req.user.id;
     issue.updatedAt = sequelize.fn("NOW");
 
