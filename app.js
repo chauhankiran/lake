@@ -581,6 +581,20 @@ app.post("/settings", auth, async (req, res, next) => {
   }
 });
 
+app.get("/admin/users", auth, async (req, res, next) => {
+  try {
+    const users = await User.findAndCountAll();
+
+    res.render("users", {
+      page: "admin",
+      count: users.count,
+      users: users.rows,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 // logout.
 app.get("/logout", auth, async (req, res, next) => {
   req.logOut((err) => {
