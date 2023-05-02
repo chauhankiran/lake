@@ -11,7 +11,9 @@
     <% if (userId) { %> 
       <a href="/projects" class="p-4 <%= page == 'projects' ? 'active' : '' %>">Projects</a>
       <a href="/settings" class="p-4 <%= page == 'settings' ? 'active' : '' %>">Settings</a>
-      <a href="/admin/users" class="p-4 <%= page == 'admin' ? 'active' : '' %>">Admin</a>
+      <% if (userType == "admin") { %>
+        <a href="/admin/users" class="p-4 <%= page == 'admin' ? 'active' : '' %>">Admin</a>
+      <% } %>
       <a href="/logout" class="p-4">Logout</a>
     <% } else { %>
       <a href="/login" class="p-4 <%= page == 'login' ? 'active' : '' %>">Login</a>
