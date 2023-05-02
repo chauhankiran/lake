@@ -108,6 +108,7 @@ passport.deserializeUser(async (id, done) => {
 app.use((req, res, next) => {
   if (req.user) {
     res.locals.userId = req.user.id;
+    res.locals.userType = req.user.type;
   } else {
     res.locals.userId = null;
   }
@@ -159,6 +160,7 @@ app.post("/register", async (req, res, next) => {
       firstName: firstName.trim(),
       lastName: lastName.trim(),
       email: email.trim(),
+      type: "user",
       password: passwordHash,
     });
 
