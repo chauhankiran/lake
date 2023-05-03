@@ -212,12 +212,23 @@ app.get("/projects/:id", auth, async (req, res, next) => {
 
   try {
     const project = await Project.findOne({ where: { id } });
+    const members = await project.getUsers();
+    const membersCount = await project.countUsers();
+
     if (project) {
-      res.render("show-project", { project, error: "", page: "show-project" });
+      res.render("show-project", {
+        project,
+        members,
+        membersCount,
+        error: "",
+        page: "show-project",
+      });
     } else {
       res.render("show-project", {
         page: "show-project",
         project: {},
+        members: [],
+        membersCount: 0,
         error:
           "Either project doesn't exist or you don't have rights to access",
       });
