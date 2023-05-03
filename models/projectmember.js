@@ -10,6 +10,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       projectId: DataTypes.INTEGER,
       userId: DataTypes.INTEGER,
+      createdBy: DataTypes.INTEGER,
+      updatedBy: DataTypes.INTEGER,
     },
     {
       sequelize,

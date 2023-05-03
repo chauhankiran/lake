@@ -274,6 +274,7 @@ app.post("/projects", auth, async (req, res, next) => {
       {
         projectId: project.id,
         userId: req.user.id,
+        createdBy: req.user.id,
       },
       { silent: true }
     );
