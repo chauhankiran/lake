@@ -828,6 +828,42 @@ app.get("/admin/users", auth, async (req, res, next) => {
   }
 });
 
+// Ajax call to get priorities
+app.get("/ajax-priorities-fields", auth, async (req, res, next) => {
+  const projectId = req.query.projectId;
+
+  try {
+    const priorities = await Priority.findAll({ where: { projectId } });
+    return res.json(priorities);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Ajax call to get statuses
+app.get("/ajax-statuses-fields", auth, async (req, res, next) => {
+  const projectId = req.query.projectId;
+
+  try {
+    const statuses = await Status.findAll({ where: { projectId } });
+    return res.json(statuses);
+  } catch (err) {
+    next(err);
+  }
+});
+
+// Ajax call to get types
+app.get("/ajax-types-fields", auth, async (req, res, next) => {
+  const projectId = req.query.projectId;
+
+  try {
+    const types = await Type.findAll({ where: { projectId } });
+    return res.json(types);
+  } catch (err) {
+    next(err);
+  }
+});
+
 // logout.
 app.get("/logout", auth, async (req, res, next) => {
   req.logOut((err) => {
