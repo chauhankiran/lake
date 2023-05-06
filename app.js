@@ -328,6 +328,28 @@ app.delete("/projects/:id", auth, async (req, res, next) => {
   }
 });
 
+app.post("/projects/:id/add-member", auth, async (req, res, next) => {
+  const id = req.params.id;
+  const { userId } = req.body;
+
+  try {
+    // TODO: Add validation to not add same user again.
+    await ProjectMember.create(
+      {
+        projectId: id,
+        userId,
+        createdBy: req.user.id,
+      },
+      { silent: true }
+    );
+
+    req.flash("info", "Member is added");
+    res.redirect(`/projects/${id}`);
+  } catch (err) {
+    next(err);
+  }
+});
+
 // issues.
 app.get("/issues", auth, async (req, res, next) => {
   try {
