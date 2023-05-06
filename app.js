@@ -215,11 +215,16 @@ app.get("/projects/:id", auth, async (req, res, next) => {
     const members = await project.getUsers();
     const membersCount = await project.countUsers();
 
+    // Get the status of the issues.
+    const issues = await Issue.findAndCountAll({ where: { projectId: id } });
+
     if (project) {
       res.render("show-project", {
         project,
         members,
         membersCount,
+        issues: issues.rows,
+        issuesCount: issues.count,
         error: "",
         page: "show-project",
       });

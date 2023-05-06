@@ -22,6 +22,18 @@
 
         <hr>
 
+        <h3 class="mb-3 mt-5">Associated Issues (<%= issuesCount %>)</h3>
+
+        <ul class="list-group">
+          <% issues.forEach(function(issue) { %>
+            <li class="list-group-item">
+              <a href="/issues/<%= issue.id %>"><%= issue.title %></a>
+            </li>
+          <% }) %>
+        </ul>
+
+        <hr>
+
         <h3 class="mb-3 mt-5">Members (<%= membersCount %>)</h3>
 
         <ul class="list-group">
