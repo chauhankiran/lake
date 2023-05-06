@@ -314,13 +314,17 @@ app.put("/projects/:id", auth, async (req, res, next) => {
 
     project.name = name.trim();
     project.key = key.trim();
-    project.completionDate = new Date(completionDate);
+
+    if (completionDate) {
+      project.completionDate = new Date(completionDate);
+    }
     project.description = description.trim();
     project.userId = req.user.id;
     project.updatedAt = sequelize.fn("NOW");
 
     await project.save();
 
+    req.flash("info", "Project is updated");
     res.redirect(`/projects/${id}`);
   } catch (err) {
     next(err);
@@ -335,6 +339,7 @@ app.delete("/projects/:id", auth, async (req, res, next) => {
     const project = await Project.findOne({ where: { id } });
     await project.destroy();
 
+    req.flash("info", "Project is deleted");
     res.redirect(`/projects`);
   } catch (err) {
     next(err);
@@ -520,8 +525,11 @@ app.post("/issues", auth, async (req, res, next) => {
       userId: req.user.id,
       assigneeId: parseInt(assigneeId, 10),
       statusId: parseInt(statusId, 10),
-      estimation: parseInt(estimation, 10),
     };
+
+    if (estimation) {
+      issueObj.estimation = parseInt(estimation, 10);
+    }
 
     if (dueDate) {
       issueObj.dueDate = new Date(dueDate);
@@ -561,7 +569,9 @@ app.put("/issues/:id", auth, async (req, res, next) => {
     issue.priorityId = parseInt(priorityId, 10);
     issue.assigneeId = parseInt(assigneeId, 10);
     issue.statusId = parseInt(statusId, 10);
-    issue.estimation = parseInt(estimation, 10);
+    if (estimation) {
+      issue.estimation = parseInt(estimation, 10);
+    }
     issue.userId = req.user.id;
     issue.updatedAt = sequelize.fn("NOW");
 
@@ -571,6 +581,7 @@ app.put("/issues/:id", auth, async (req, res, next) => {
 
     await issue.save();
 
+    req.flash("info", "Issue is updated");
     res.redirect(`/issues/${issue.id}`);
   } catch (err) {
     next(err);
@@ -585,6 +596,7 @@ app.delete("/issues/:id", auth, async (req, res, next) => {
     const issue = await Issue.findOne({ where: { id } });
     await issue.destroy();
 
+    req.flash("info", "Issue is deleted");
     res.redirect(`/issues`);
   } catch (err) {
     next(err);
@@ -605,6 +617,7 @@ app.post("/comments", auth, async (req, res, next) => {
       { silent: true }
     );
 
+    req.flash("info", "Comment is created");
     res.redirect(`/issues/${issueId}`);
   } catch (err) {
     next(err);

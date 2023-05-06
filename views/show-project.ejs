@@ -9,13 +9,7 @@
     <% } else { %>
       <div class="col-md-12">
 
-        <!-- Display alert/flash message after project is created. -->
-        <% if (locals.messages.info) { %>
-          <div class="alert alert-primary alert-dismissible fade show" role="alert">
-            <%= locals.messages.info %>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div>
-        <% } %>
+        <%- include("shared/flash") %>
 
         <h1 class="mb-3"><%= project.key %>. <%= project.name %></h1>
         <p class="fst-italic"><%= project.description %></p>
