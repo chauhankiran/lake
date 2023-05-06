@@ -10,7 +10,24 @@
       <div class="col-md-12">
         <%- include("shared/flash") %>
 
-        <h1 class="mb-3"><%= issue.id %>. <%= issue.title %></h1>
+        <div class="row mb-3 align-items-center">
+          <div class="col-md-9">
+            <h1><%= issue.id %>. <%= issue.title %></h1>
+          </div>
+          <div class="col-md-3 text-end">
+            <div class="btn-group">
+              <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Actions
+                <i class="bi bi-three-dots-vertical"></i>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="/issues/<%= issue.id %>/edit">Edit</a></li>
+                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#deleteIssue">Delete</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         <p class="fst-italic"><%= issue.description %></p>
         
         <div class="col-md-12">
@@ -41,19 +58,6 @@
         <div class="col-md-12">
           <span>Estimation</span>:
           <span><%= issue.estimation %></span>
-        </div>
-
-        <hr>
-        
-        <div class="row">
-          <div class="col-md-6 text-start">
-            <a href="/issues/<%= issue.id %>/edit">Edit</a>
-          </div>
-          <div class="col-md-6 text-end">
-            <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#deleteIssue">
-              Delete
-            </button>
-          </div>
         </div>
 
         <hr>

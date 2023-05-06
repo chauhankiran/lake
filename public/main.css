@@ -35,3 +35,7 @@ a:hover(:not(.btn-primary)),
 .active {
   text-decoration: underline;
 }
+
+.dropdown-toggle::after {
+  display: none;
+}

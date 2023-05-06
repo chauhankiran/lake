@@ -10,21 +10,29 @@
       <div class="col-md-12">
         <%- include("shared/flash") %>
 
-        <h1 class="mb-3"><%= project.key %>. <%= project.name %></h1>
+        <div class="row mb-3 align-items-center">
+          <div class="col-md-9">
+            <h1><%= project.key %>. <%= project.name %></h1>
+          </div>
+          <div class="col-md-3 text-end">
+            <div class="btn-group">
+              <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Actions
+                <i class="bi bi-three-dots-vertical"></i>
+              </button>
+              <ul class="dropdown-menu rounded-0 dropdown-menu-end">
+                <li><a class="dropdown-item" href="/projects/<%= project.id %>/edit">Edit</a></li>
+                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#deleteProject">Delete</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         <p class="fst-italic"><%= project.description %></p>
 
         <hr>
 
         <h3 class="mb-3 mt-5">Associated Issues (<%= issuesCount %>)</h3>
-
-        <form action="/projects/<%= project.id %>/add-member" method="post" class="row mb-4">
-          <div class="col-md-10">
-            <input type="text" name="userId" id="userId" class="form-control">
-          </div>
-          <div class="col-md-2">
-            <button type="submit" class="btn btn-primary">Add member</button>
-          </div>
-        </form>
 
         <ul class="list-group">
           <% issues.forEach(function(issue) { %>
@@ -38,6 +46,15 @@
 
         <h3 class="mb-3 mt-5">Members (<%= membersCount %>)</h3>
 
+        <form action="/projects/<%= project.id %>/add-member" method="post" class="row mb-4">
+          <div class="col-md-10">
+            <input type="text" name="userId" id="userId" class="form-control">
+          </div>
+          <div class="col-md-2">
+            <button type="submit" class="btn btn-primary">Add member</button>
+          </div>
+        </form>
+
         <ul class="list-group">
           <% members.forEach(function(member) { %>
             <li class="list-group-item">
@@ -45,19 +62,6 @@
             </li>
           <% }) %>
         </ul>
-
-        <hr>
-
-        <div class="row">
-          <div class="col-md-6 text-start">
-            <a href="/projects/<%= project.id %>/edit">Edit</a>
-          </div>
-          <div class="col-md-6 text-end">
-            <button type="button" class="btn btn-link" data-bs-toggle="modal" data-bs-target="#deleteProject">
-              Delete
-            </button>
-          </div>
-        </div>
       </div>
     <% } %>
   </div>
