@@ -3,14 +3,7 @@
 <div class="container my-4">
   <div class="row">
     <div class="col-md-12">
-
-      <!-- Display alert/flash message after settings are created. -->
-      <% if (locals.messages.info) { %>
-        <div class="alert alert-primary alert-dismissible fade show" role="alert">
-          <%= locals.messages.info %>
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-      <% } %>
+      <%- include("shared/flash") %>
 
       <h1 class="mb-3">Settings</h1>
       <div class="row">
