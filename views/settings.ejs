@@ -32,6 +32,45 @@
         </div>
         <div class="col-md-6"></div>
       </div>
+
+      <hr>
+
+      <div class="row">
+        <div class="col-md-6">
+          <h3>Update password</h3>
+          <form action="/settings/password" method="post" class="needs-validation" novalidate>
+            <div class="mb-3">
+              <label for="currentPassword">Current password</label>
+              <input type="password" name="currentPassword" id="currentPassword" class="form-control" placeholder="Your current super secret" required>
+              <div class="invalid-feedback">
+                Current password can't be empty.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="newPassword">New password</label>
+              <input type="password" name="newPassword" id="newPassword" class="form-control" placeholder="New super super secret" required>
+              <div class="invalid-feedback">
+                New password can't be empty.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="confirmNewPassword">Repeat new password</label>
+              <input type="password" name="confirmNewPassword" id="confirmNewPassword" class="form-control" placeholder="Repeat new super super secret" required>
+              <div class="invalid-feedback">
+                New password can't be empty.
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <button type="submit" class="btn btn-primary">Update password</button>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-6"></div>
+      </div>
+
     </div>
   </div>
 </div>

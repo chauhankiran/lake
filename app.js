@@ -671,6 +671,41 @@ app.post("/settings", auth, async (req, res, next) => {
   }
 });
 
+// update password.
+app.post("/settings/password", auth, async (req, res, next) => {
+  const { currentPassword, newPassword } = req.body;
+
+  try {
+    // Create hash for current password.
+    const passwordHash = crypto
+      .createHash("sha256")
+      .update(currentPassword)
+      .digest("hex");
+
+    const user = await User.findOne({ where: { id: req.user?.id } });
+
+    if (passwordHash !== user.password) {
+      req.flash("info", "You have entered incorrect current password");
+      res.redirect("/settings");
+      return;
+    }
+
+    const newPasswordHash = crypto
+      .createHash("sha256")
+      .update(newPassword)
+      .digest("hex");
+
+    user.password = newPasswordHash;
+
+    await user.save();
+
+    req.flash("info", "Password is updated.");
+    res.redirect("/settings");
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.get("/admin/users", auth, async (req, res, next) => {
   try {
     const users = await User.findAndCountAll();
