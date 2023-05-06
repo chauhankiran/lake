@@ -119,7 +119,7 @@ app.use((req, res, next) => {
 
 // login.
 app.get("/login", async (req, res, next) => {
-  res.render("login", { page: "login" });
+  res.render("login", { page: "login", title: "Login" });
 });
 
 // login.
@@ -145,7 +145,7 @@ app.post("/login", async (req, res, next) => {
 
 // register.
 app.get("/register", async (req, res, next) => {
-  res.render("register", { page: "register" });
+  res.render("register", { page: "register", title: "Register" });
 });
 
 // register.
@@ -174,7 +174,7 @@ app.post("/register", async (req, res, next) => {
 
 // home.
 app.get("/", async (req, res, next) => {
-  res.render("home", { page: "" });
+  res.render("home", { page: "", title: "Lake" });
 });
 
 // dashboard.
@@ -184,7 +184,11 @@ app.get("/dashboard", auth, async (req, res, next) => {
       where: { assigneeId: req.user?.id },
     });
 
-    res.render("dashboard", { page: "dashboard", assignedIssues });
+    res.render("dashboard", {
+      page: "dashboard",
+      title: "Dashboard",
+      assignedIssues,
+    });
   } catch (err) {
     next(err);
   }
@@ -200,12 +204,13 @@ app.get("/projects", auth, async (req, res, next) => {
     projects: projects,
     count,
     page: "projects",
+    title: "Projects",
   });
 });
 
 // new project.
 app.get("/projects/new", auth, async (req, res, next) => {
-  res.render("new-project", { page: "new-project" });
+  res.render("new-project", { page: "projects", title: "New project" });
 });
 
 // show project.
@@ -228,11 +233,13 @@ app.get("/projects/:id", auth, async (req, res, next) => {
         issues: issues.rows,
         issuesCount: issues.count,
         error: "",
-        page: "show-project",
+        page: "projects",
+        title: project.name,
       });
     } else {
       res.render("show-project", {
-        page: "show-project",
+        page: "projects",
+        title: "Lake",
         project: {},
         members: [],
         membersCount: 0,
@@ -251,7 +258,11 @@ app.get("/projects/:id/edit", auth, async (req, res, next) => {
 
   try {
     const project = await Project.findOne({ where: { id } });
-    res.render("edit-project", { project, page: "edit-project" });
+    res.render("edit-project", {
+      project,
+      page: "projects",
+      title: project.name,
+    });
   } catch (err) {
     next(err);
   }
@@ -360,6 +371,7 @@ app.get("/issues", auth, async (req, res, next) => {
       issues: issues.rows,
       count: issues.count,
       page: "issues",
+      title: "Issues",
     });
   } catch (err) {
     next(err);
@@ -385,7 +397,8 @@ app.get("/issues/new", auth, async (req, res, next) => {
       priorities,
       statuses,
       users,
-      page: "new-issue",
+      page: "issues",
+      title: "New issue",
     });
   } catch (err) {
     next(err);
@@ -433,14 +446,16 @@ app.get("/issues/:id", auth, async (req, res, next) => {
     if (issue) {
       res.render("show-issue", {
         issue,
-        page: "show-issue",
+        page: "issues",
         comments,
         error: "",
+        title: issue.title,
       });
     } else {
       res.render("show-issue", {
         issue: {},
-        page: "show-issue",
+        page: "issues",
+        title: "Lake",
         comments: {},
         error: "Either issue doesn't exist or you don't have rights to access",
       });
@@ -472,7 +487,8 @@ app.get("/issues/:id/edit", auth, async (req, res, next) => {
       priorities,
       statuses,
       users,
-      page: "edit-project",
+      page: "issues",
+      title: issue.title,
     });
   } catch (err) {
     next(err);
@@ -599,7 +615,7 @@ app.post("/comments", auth, async (req, res, next) => {
 app.get("/settings", auth, async (req, res, next) => {
   try {
     const user = await User.findOne({ where: { id: req.user?.id } });
-    res.render("settings", { page: "settings", user });
+    res.render("settings", { page: "settings", title: "Settings", user });
   } catch (err) {
     next(err);
   }
@@ -632,6 +648,7 @@ app.get("/admin/users", auth, async (req, res, next) => {
       page: "admin",
       count: users.count,
       users: users.rows,
+      title: "Users",
     });
   } catch (err) {
     next(err);
