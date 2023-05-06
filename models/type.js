@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: DataTypes.STRING,
       active: DataTypes.BOOLEAN,
+      projectId: DataTypes.INTEGER,
       createdAt: {
         type: DataTypes.DATE,
         get() {

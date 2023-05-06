@@ -30,13 +30,7 @@ $ npm i
 $ npx sequelize db:migrate
 ```
 
-6. Run the seeder to fill the tables with default valus.
-
-```bash
-$ npx sequelize db:seed:all
-```
-
-7. You're ready to run the application locally.
+6. You're ready to run the application locally.
 
 ```bash
 $ npm run dev
@@ -49,3 +43,7 @@ $ npm start
 ```
 
 Enjoy!
+
+### License
+
+MIT License Copyright (c) 2023 KC

@@ -315,6 +315,113 @@ app.post("/projects", auth, async (req, res, next) => {
       { silent: true }
     );
 
+    // Add types
+    await Type.bulkCreate([
+      {
+        name: "None",
+        projectId: project.id,
+        createdAt: sequelize.fn("NOW"),
+      },
+      {
+        name: "Bug",
+        projectId: project.id,
+        createdAt: sequelize.fn("NOW"),
+      },
+      {
+        name: "Enhancement",
+        projectId: project.id,
+        createdAt: sequelize.fn("NOW"),
+      },
+      {
+        name: "Documentation",
+        projectId: project.id,
+        createdAt: sequelize.fn("NOW"),
+      },
+      {
+        name: "UI",
+        projectId: project.id,
+        createdAt: sequelize.fn("NOW"),
+      },
+      {
+        name: "Question",
+        projectId: project.id,
+        createdAt: sequelize.fn("NOW"),
+      },
+      {
+        name: "Performance",
+        projectId: project.id,
+        createdAt: sequelize.fn("NOW"),
+      },
+    ]);
+
+    // Add priorities
+    await Priority.bulkCreate([
+      {
+        name: "None",
+        projectId: project.id,
+        createdAt: sequelize.fn("NOW"),
+      },
+      {
+        name: "Low",
+        projectId: project.id,
+        createdAt: sequelize.fn("NOW"),
+      },
+      {
+        name: "Normal",
+        projectId: project.id,
+        createdAt: sequelize.fn("NOW"),
+      },
+      {
+        name: "High",
+        projectId: project.id,
+        createdAt: sequelize.fn("NOW"),
+      },
+      {
+        name: "Urgent",
+        projectId: project.id,
+        createdAt: sequelize.fn("NOW"),
+      },
+    ]);
+
+    // Add statuses
+    await Status.bulkCreate([
+      {
+        name: "None",
+        projectId: project.id,
+        createdAt: sequelize.fn("NOW"),
+      },
+      {
+        name: "Todo",
+        projectId: project.id,
+        createdAt: sequelize.fn("NOW"),
+      },
+      {
+        name: "Assigned",
+        projectId: project.id,
+        createdAt: sequelize.fn("NOW"),
+      },
+      {
+        name: "In progress",
+        projectId: project.id,
+        createdAt: sequelize.fn("NOW"),
+      },
+      {
+        name: "Review",
+        projectId: project.id,
+        createdAt: sequelize.fn("NOW"),
+      },
+      {
+        name: "Done",
+        projectId: project.id,
+        createdAt: sequelize.fn("NOW"),
+      },
+      {
+        name: "Close",
+        projectId: project.id,
+        createdAt: sequelize.fn("NOW"),
+      },
+    ]);
+
     req.flash("info", "Project is created");
     res.redirect(`/projects/${project.id}`);
   } catch (err) {
