@@ -9,12 +9,18 @@
 
       <ul class="list-group">
         <% assignedIssues.forEach(function(assignedIssue) { %>
-          <li class="list-group-item">
-            <h4>
-              <a href="/issues/<%= assignedIssue.id %>">
-                <%= assignedIssue.title %></h4>
-              </a>
-          </li>
+          <a href="/issues/<%= assignedIssue.id %>" class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+              <h3 class="mb-1"><span class="text-muted">#<%= assignedIssue.id %>.</span> <%= assignedIssue.title %></h3>
+              <small><%= assignedIssue.dueDate %></small>
+            </div>
+            <p class="mb-1"><%= assignedIssue.description %></p>
+            <small><%= assignedIssue.type?.name || "-" %></small>
+            &middot;
+            <small><%= assignedIssue.priority?.name || "-" %></small>
+            &middot;
+            <small><%= assignedIssue.status?.name || "-" %></small>
+          </a>
         <% }) %>
       </ul>
     </div>

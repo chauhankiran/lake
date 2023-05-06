@@ -182,6 +182,24 @@ app.get("/dashboard", auth, async (req, res, next) => {
   try {
     const assignedIssues = await Issue.findAll({
       where: { assigneeId: req.user?.id },
+      include: [
+        {
+          model: Type,
+          as: "type",
+        },
+        {
+          model: Priority,
+          as: "priority",
+        },
+        {
+          model: Status,
+          as: "status",
+        },
+        {
+          model: User,
+          as: "assignee",
+        },
+      ],
     });
 
     res.render("dashboard", {
@@ -671,10 +689,12 @@ app.get("/admin/users", auth, async (req, res, next) => {
 // logout.
 app.get("/logout", auth, async (req, res, next) => {
   req.logOut((err) => {
-    next(err);
-    return;
+    if (err) {
+      next(err);
+      return;
+    }
+    res.redirect("/");
   });
-  res.redirect("/");
 });
 
 // 404.
