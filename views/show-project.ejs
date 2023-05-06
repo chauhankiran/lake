@@ -24,6 +24,15 @@
 
         <h3 class="mb-3 mt-5">Associated Issues (<%= issuesCount %>)</h3>
 
+        <form action="/projects/<%= project.id %>/add-member" method="post" class="row mb-4">
+          <div class="col-md-10">
+            <input type="text" name="userId" id="userId" class="form-control">
+          </div>
+          <div class="col-md-2">
+            <button type="submit" class="btn btn-primary">Add member</button>
+          </div>
+        </form>
+
         <ul class="list-group">
           <% issues.forEach(function(issue) { %>
             <li class="list-group-item">
