@@ -496,7 +496,27 @@ app.post("/projects/:id/add-member", auth, async (req, res, next) => {
 // issues.
 app.get("/issues", auth, async (req, res, next) => {
   try {
-    const issues = await Issue.findAndCountAll();
+    const issues = await Issue.findAndCountAll({
+      include: [
+        {
+          model: Type,
+          as: "type",
+        },
+        {
+          model: Status,
+          as: "status",
+        },
+        {
+          model: Priority,
+          as: "priority",
+        },
+        {
+          model: User,
+          as: "assignee",
+        },
+      ],
+      order: [["id", "DESC"]],
+    });
     res.render("issues", {
       issues: issues.rows,
       count: issues.count,

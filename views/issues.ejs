@@ -17,6 +17,12 @@
           <tr>
             <th>Id</th>
             <th>Title</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>Assignee</th>
+            <th>Due date</th>
+            <th>Estimation</th>
           </tr>
         </thead>
         <tbody>
@@ -26,6 +32,12 @@
               <td>
                 <a href="/issues/<%= issue.id %>"><%= issue.title %></a>
               </td>
+              <td><%= issue.type?.name || "-" %></td>
+              <td><%= issue.status?.name || "-" %></td>
+              <td><%= issue.priority?.name || "_" %></td>
+              <td><%= issue.assignee?.firstName || "-" %></td>
+              <td><%= issue.dueDate || "-" %></td>
+              <td><%= issue.estimation || "-" %></td>
             </tr>
           <% }) %>
         </tbody>
