@@ -79,7 +79,7 @@ passport.use(
 
       try {
         const user = await User.findOne({
-          where: { email, password: passwordHash },
+          where: { email, password: passwordHash, active: true },
         });
         if (user) {
           done(null, user);
@@ -835,7 +835,7 @@ app.post("/settings/password", auth, async (req, res, next) => {
 
 app.get("/admin/users", auth, async (req, res, next) => {
   try {
-    const users = await User.findAndCountAll();
+    const users = await User.findAndCountAll({ order: [["id", "desc"]] });
 
     res.render("users", {
       page: "admin",
@@ -843,6 +843,34 @@ app.get("/admin/users", auth, async (req, res, next) => {
       users: users.rows,
       title: "Users",
     });
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.put("/admin/users/:id", auth, async (req, res, next) => {
+  const id = req.params.id;
+  const { mode } = req.body;
+
+  if (!mode) {
+    req.flash("info", "Action is not supported");
+    res.render("users");
+    return;
+  }
+
+  try {
+    const user = await User.findOne({ where: { id } });
+
+    if (mode === "activate") {
+      user.active = 1;
+    } else if (mode === "deactivate") {
+      user.active = 0;
+    }
+
+    await user.save();
+
+    req.flash("info", "User is updated");
+    res.redirect("/admin/users");
   } catch (err) {
     next(err);
   }
