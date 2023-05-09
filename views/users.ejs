@@ -18,6 +18,8 @@
             <th>Id</th>
             <th>Name</th>
             <th>Active</th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -28,6 +30,18 @@
                 <%= user.firstName %> <%= user.lastName %>
               </td>
               <td><%= user.active ? "Yes" : "No" %></td>
+              <td>
+                <form action="/admin/users/<%= user.id %>?_method=PUT" method="post">
+                  <input type="hidden" name="mode" value="activate">
+                  <button type="submit" class="btn btn-link">Activate</button>
+                </form>
+              </td>
+              <td>
+                <form action="/admin/users/<%= user.id %>?_method=PUT" method="post">
+                  <input type="hidden" name="mode" value="deactivate">
+                  <button type="submit" class="btn btn-link">Deactivate</button>
+                </form>
+              </td>
             </tr>
           <% }) %>
         </tbody>
@@ -35,6 +49,5 @@
     </div>
   </div>
 </div>
-
 
 <%- include("shared/footer") %>
