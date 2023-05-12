@@ -1,0 +1,37 @@
+<%- include("shared/header") %>
+
+<div class="container my-4">
+  <div class="row">
+    <div class="col-md-12">
+      <%- include("shared/flash") %>
+
+      <div class="row mb-3">
+        <div class="col-md-12"><h1>Statuses (<%= count %>)</h1></div>
+      </div>
+
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Active</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% statuses.forEach(function(status) { %>
+            <tr>
+              <td><%= status.id %></td>
+              <td>
+                <%= status.name %>
+              </td>
+              <td><%= status.active ? "Yes" : "No" %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<%- include("shared/footer") %>

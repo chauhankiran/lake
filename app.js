@@ -876,6 +876,73 @@ app.put("/admin/users/:id", auth, async (req, res, next) => {
   }
 });
 
+app.get("/projects/:id/fields", auth, async (req, res, next) => {
+  const id = req.params.id;
+
+  res.render("project-fields", {
+    title: "Project fields",
+    page: "projects",
+    projectId: id,
+    fields: ["Statuses", "Priorities", "Types"],
+  });
+});
+
+app.get("/projects/:id/fields/statuses", auth, async (req, res, next) => {
+  const id = req.params.id;
+
+  try {
+    const statuses = await Status.findAndCountAll({ where: { projectId: id } });
+
+    res.render("statuses", {
+      title: "Statuses",
+      page: "projects",
+      statuses: statuses.rows,
+      count: statuses.count,
+    });
+    return;
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.get("/projects/:id/fields/priorities", auth, async (req, res, next) => {
+  const id = req.params.id;
+
+  try {
+    const priorities = await Priority.findAndCountAll({
+      where: { projectId: id },
+    });
+
+    res.render("priorities", {
+      title: "Priorities",
+      page: "projects",
+      priorities: priorities.rows,
+      count: priorities.count,
+    });
+    return;
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.get("/projects/:id/fields/types", auth, async (req, res, next) => {
+  const id = req.params.id;
+
+  try {
+    const types = await Type.findAndCountAll({ where: { projectId: id } });
+
+    res.render("types", {
+      title: "Types",
+      page: "projects",
+      types: types.rows,
+      count: types.count,
+    });
+    return;
+  } catch (err) {
+    next(err);
+  }
+});
+
 // Ajax call to get priorities
 app.get("/ajax-priorities-fields", auth, async (req, res, next) => {
   const projectId = req.query.projectId;
