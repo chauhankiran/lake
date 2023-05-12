@@ -465,6 +465,8 @@ app.delete("/projects/:id", auth, async (req, res, next) => {
   const id = req.params.id;
 
   try {
+    await Issue.destroy({ where: { projectId: id } });
+
     const project = await Project.findOne({ where: { id } });
     await project.destroy();
 
