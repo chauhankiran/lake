@@ -1,0 +1,35 @@
+<%- include("shared/header") %>
+
+<div class="container my-4">
+  <div class="row">
+    <div class="col-md-12">
+      <%- include("shared/flash") %>
+
+      <div class="row mb-3">
+        <div class="col-md-12"><h1>Project fields (3)</h1></div>
+      </div>
+
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% fields.forEach(function(field) { %>
+            <tr>
+              <td>
+                <a href="/projects/<%= projectId %>/fields/<%= field.toLowerCase() %>">
+                  <%= field %>
+                </a>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<%- include("shared/footer") %>

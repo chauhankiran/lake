@@ -1,0 +1,37 @@
+<%- include("shared/header") %>
+
+<div class="container my-4">
+  <div class="row">
+    <div class="col-md-12">
+      <%- include("shared/flash") %>
+
+      <div class="row mb-3">
+        <div class="col-md-12"><h1>Types (<%= count %>)</h1></div>
+      </div>
+
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Active</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% types.forEach(function(type) { %>
+            <tr>
+              <td><%= type.id %></td>
+              <td>
+                <%= type.name %>
+              </td>
+              <td><%= type.active ? "Yes" : "No" %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<%- include("shared/footer") %>
