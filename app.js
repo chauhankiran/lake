@@ -126,10 +126,14 @@ app.get("/login", async (req, res, next) => {
 app.post("/login", async (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) {
+      req.flash("info", "Problem while login.");
+      res.redirect("/login");
       return;
     }
 
     if (!user) {
+      req.flash("info", "Incorrect email and/or password.");
+      res.redirect("/login");
       return;
     }
 
