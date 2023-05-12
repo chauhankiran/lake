@@ -16,7 +16,11 @@
             <label for="projectId">Project</label>
             <select name="projectId" id="projectId" class="form-select" required>
               <% projects.forEach(function (project) { %>
-                <option value="<%= project.id %>"><%= project.name %></option>
+                <% if (project.id == projectId ) { %>
+                  <option value="<%= project.id %>" selected><%= project.name %></option>
+                <% } else {  %>
+                  <option value="<%= project.id %>"><%= project.name %></option>
+                <% } %>
               <% }) %>
             </select>
             <div class="invalid-feedback">
