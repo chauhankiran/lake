@@ -529,31 +529,41 @@ app.get("/issues", auth, async (req, res, next) => {
 });
 
 // new issue.
-app.get("/issues/new", auth, async (req, res, next) => {
-  // Get list of all projects to display as dropdown.
-  try {
-    const user = await User.findByPk(req.user?.id);
-    const projects = await user.getProjects();
-    const types = await Type.findAll();
-    const priorities = await Priority.findAll();
-    const statuses = await Status.findAll();
+app.get(
+  ["/issues/new", "/projects/:id/issues/new"],
+  auth,
+  async (req, res, next) => {
+    let projectId = null;
+    if (req.params.id) {
+      projectId = req.params.id;
+    }
 
-    // TODO: Update the following query to only fetch the users based on project selection.
-    const users = await User.findAll();
+    // Get list of all projects to display as dropdown.
+    try {
+      const user = await User.findByPk(req.user?.id);
+      const projects = await user.getProjects();
+      const types = await Type.findAll();
+      const priorities = await Priority.findAll();
+      const statuses = await Status.findAll();
 
-    res.render("new-issue", {
-      projects,
-      types,
-      priorities,
-      statuses,
-      users,
-      page: "issues",
-      title: "New issue",
-    });
-  } catch (err) {
-    next(err);
+      // TODO: Update the following query to only fetch the users based on project selection.
+      const users = await User.findAll();
+
+      res.render("new-issue", {
+        projects,
+        types,
+        priorities,
+        statuses,
+        users,
+        page: "issues",
+        title: "New issue",
+        projectId,
+      });
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
 
 // show issue.
 app.get("/issues/:id", auth, async (req, res, next) => {
