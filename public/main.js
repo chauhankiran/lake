@@ -26,6 +26,37 @@ $(function () {
     });
   })();
 
+  // Autosuggest the project key based on project name as type.
+  if ($(location).attr("href").indexOf("/projects/new") > 0) {
+    $("#name").on("keyup", function () {
+      var name = $(this).val();
+      var key = "";
+
+      if (name.indexOf(" ") >= 0) {
+        key = name
+          .split(" ")
+          .map(function (item) {
+            return item[0];
+          })
+          .join("");
+
+        key = key.substring(0, 3);
+
+        if (key.length <= 1) {
+          key = name.substring(0, 3);
+        }
+      } else {
+        key = name.substring(0, 3);
+      }
+
+      if (key.length > 0) {
+        key = key.toUpperCase();
+      }
+
+      $("#key").val(key);
+    });
+  }
+
   // Update the issue dropdown based on selection of the project.
   // TODO: Remove this condition hack
   if ($(location).attr("href").indexOf("/issues/new") !== -1) {
