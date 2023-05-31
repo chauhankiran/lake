@@ -609,11 +609,15 @@ app.get("/issues/:id", auth, async (req, res, next) => {
         },
       ],
     });
+    const project = await Project.findOne({
+      where: { id: issue.projectId },
+    });
 
     if (issue) {
       res.render("show-issue", {
         issue,
         page: "issues",
+        project,
         comments,
         error: "",
         title: issue.title,
@@ -621,6 +625,7 @@ app.get("/issues/:id", auth, async (req, res, next) => {
     } else {
       res.render("show-issue", {
         issue: {},
+        project: {},
         page: "issues",
         title: "Lake",
         comments: {},
