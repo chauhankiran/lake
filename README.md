@@ -22,7 +22,7 @@ $ cd lake
 $ npm i
 ```
 
-4. Rename the `.env.example` to `.env` and the adjust the variables inside. The project is tested against PostgreSQL.
+4. Rename the `.env.example` to `.env` and the adjust the variables inside. The project is tested against MySQL.
 
 5. Run the migrations.
 

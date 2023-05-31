@@ -62,6 +62,7 @@ app.use(
 );
 app.use(flash());
 
+// Uncomment the following line for one time only. This will create a "Sessions" table.
 // store.sync();
 
 app.use(passport.initialize());

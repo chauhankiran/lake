@@ -22,9 +22,9 @@
     "helmet": "^6.1.5",
     "method-override": "^3.0.0",
     "morgan": "^1.10.0",
+    "mysql2": "^3.3.2",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
-    "pg": "^8.10.0",
     "sequelize": "^6.30.0",
     "serve-favicon": "^2.5.0"
   },
